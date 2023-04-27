@@ -1,0 +1,146 @@
+.main-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.area-login {
+    width: 1000px;
+    height: 615px;
+    background-color: #fff;
+    display: flex;
+    border-radius: 10px
+}
+
+.area-form {
+    background-color: #F6F6F6;
+    width: 400px;
+    border-radius: 10px 0px 0px 10px;
+
+}
+
+.logo-login {
+    display: flex;
+    justify-content: center;
+    margin: 50px 0;
+
+}
+
+.logo-login svg {
+    width: 130px;
+
+}
+
+.form-login {
+    display: flex;
+    justify-content: center;
+}
+
+.box label {
+    display: block;
+    font-size: 14px;
+    color: #37474F;
+    line-height: 25px;
+    padding: 5px 0;
+    font-weight: 400;
+}
+
+.box input {
+    width: 280px;
+    height: 35px;
+    border: 1px solid #D4D4D7;
+    border-radius: 5px;
+    padding-left: 15px;
+    font-size: 14px;
+    color: #535261;
+    font-weight: 400px;
+}
+
+.box input:focus {
+    outline: none;
+}
+
+.link-forget {
+    margin: 7px 0;
+}
+
+.link-forget a {
+    text-decoration: none;
+    color: red;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.button-login {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.button-login button {
+    background-color: #FF9138;
+    border: none;
+    border-radius: 5px;
+    width: 120px;
+    height: 35px;
+    color: white;
+
+}
+
+.area-img {
+    width: 700px;
+}
+
+.area-img svg {
+    margin-left: 30px;
+    width: 580px;
+}
+
+/* forget page */
+.text-forget p {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.heading-forget {
+    font-size: 16px;
+    font-weight: 700;
+    color: #282739;
+}
+
+.text-forget {
+    font-size: 14px;
+    font-weight: 400;
+    color: #37474F;
+    line-height: 30px;
+}
+
+.button-forget {
+    display: flex;
+    justify-content: space-around;
+    margin: 35px 0px;
+}
+
+.cancel-forget {
+    background-color: transparent;
+    border: 1px solid #FF9138;
+    border-radius: 5px;
+    width: 120px;
+    height: 30px;
+    color: #FF9138;
+}
+
+.continue-forget {
+    background-color: #FF9138;
+    border: none;
+    border-radius: 5px;
+    width: 120px;
+    height: 30px;
+    color: white;
+}
+
+
+/* Reset Password Page */

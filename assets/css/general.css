@@ -2,7 +2,26 @@
 
 body {
     font-family: 'Nunito';
+    background-color: #F6F6F6;
     margin: 0;
     padding: 0;
-    background-color: rgba(177, 177, 177, 1);
+    /* min-height: 100vh; */
+}
+
+main {
+    margin-left: 224px;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+p {
+    margin: 0;
+    padding: 0;
 }
