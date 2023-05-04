@@ -1,0 +1,224 @@
+.btn-select-service, .btn-condition {
+    width: 160px;
+    height: 44px;
+    background: #FFFFFF;
+    border: 2px solid #D4D4D7;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+}
+
+.btn-condition {
+    margin-left: 10px;
+}
+
+.btn-select-service:focus, .btn-condition:focus, .btn-select-choose-service:focus {
+    border: 2px solid #FFAC6A;
+}
+
+.list-name-service {
+    width: 160px;
+    height: 198px;
+    background: #FFFFFF;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.list-furnish {
+    width: 160px;
+    min-height: 154px;
+    max-height: 198px;
+    background: #FFFFFF;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.item-date-stats {
+    height: 44px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #282739;
+    margin: 1px 0;
+}
+
+.search-menubar-codes {
+    width: 240px;
+    height: 44px;
+    background: #FFFFFF;
+    border: 2px solid #D4D4D7;
+    border-radius: 8px;
+    padding: 10px 16px 10px 12px;
+    margin-right: 3px;
+}
+
+/* ==== cấp số mới ==== */
+.content-codes-new {
+    margin-top: 100px;
+}
+
+.area-codes-new {
+    margin-top: 10px;
+    margin-right: 24px;
+    height: 580px;
+    background: #FFFFFF;
+    box-shadow: 2px 2px 8px rgba(232, 239, 244, 0.8);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.area-codes-new p, .area-codes-new .status-device {
+    display: flex;
+    justify-content: center;
+}
+
+.area-codes-new .heading-codes-new {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 48px;
+    color: #FF7506;
+}
+
+.area-codes-new .text-codes-new {
+    margin-top: 12px;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 30px;
+    color: #535261;
+}
+
+.btn-select-choose-service {
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    width: 400px;
+    height: 44px;
+    background: #FFFFFF;
+    border: 2px solid #D4D4D7;
+    border-radius: 8px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #A9A9B0;
+}
+
+.list-choose-service-codenew {
+    width: 400px;
+    height: 198px;
+    background: #FFFFFF;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    overflow-y: auto;
+}
+
+.area-button-codenew {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 80px;
+}
+
+.area-button-codenew button {
+    width: 115px;
+    height: 48px;
+    box-shadow: 0px 0px 6px #E7E9F2;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+}
+
+.btn-codenew-inso {
+    border: none;
+    background: #FF9138;
+    color: white;
+}
+
+.btn-codenew-abort {
+    background: #FFF2E7;
+    border: 2px solid #FF9138;
+    color: #FF9138;
+}
+
+/* ==== Popup ==== */
+.modal-content {
+    position: relative;
+    width: 469px;
+    height: 385px;
+    background: #FFFFFF;
+    border-radius: 24px;
+    overflow: hidden;
+    border: none;
+}
+
+.btn-close-popup {
+    border: none;
+    background-color: transparent;
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    color: #FF7506
+}
+
+.content-header {
+    margin-top: 48px;
+    text-align: center;
+}
+
+.content-header h3 {
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 48px;
+    color: #535261;
+}
+
+.content-header h2 {
+    margin: 24px 0;
+    font-weight: 800;
+    font-size: 56px;
+    line-height: 60px;
+    color: #FF7506;
+
+}
+
+.content-header p {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 27px;
+    color: #282739;
+}
+
+.content-footer {
+    background: #FF9138;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 44px;
+    height: 110px;
+}
+
+.text-datetime {
+    width: 335px;
+    height: 33px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.text-datetime p {
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 33px;
+    color: #FFFFFF;
+    display: flex;
+}

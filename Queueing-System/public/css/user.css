@@ -1,0 +1,86 @@
+/* ========== User Infomation ========== */
+.content-user-info {
+    width: 1112px;
+    height: 397px;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 6px rgba(219, 219, 219, 0.5);
+    border-radius: 12px;
+    padding: 40px 24px;
+    display: flex;
+    margin-top: 168px;
+}
+
+.area-avatar {
+    display: inline-block;
+    width: 248px;
+}
+
+.avatar {
+    position: relative;
+    display: inline;
+}
+
+.avatar img {
+    width: 248px;
+    height: 248px;
+    border-radius: 100%;
+}
+
+.change-avatar {
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    margin-top: 206px;
+    margin-left: 171px;
+}
+
+.area-avatar .name-user {
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 36px;
+    display: flex;
+    justify-content: center;
+    margin-top: 19px;
+}
+
+.form-user-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 10px 24px;
+}
+
+.form-user-info .input-box {
+    width: calc(100% / 2 - 20px);
+}
+
+.input-box label {
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #282739;
+}
+
+.input-box input {
+    width: 384px;
+    height: 44px;
+    background: #EAEAEC;
+    border-radius: 6px;
+    border: none;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #53526187;
+    padding-left: 16px;
+}
+
+/* ========== Log User ========== */
+.table-list-loguser {
+    width: 1112px;
+    margin-top: 5px;
+    border-radius: 12px;
+}

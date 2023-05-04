@@ -1,0 +1,51 @@
+.area-input-date {
+    width: 320px;
+}
+
+.thead-table-report {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5px;
+    position: relative;
+}
+
+.thead-table-report button {
+    border: none;
+    background-color: transparent;
+
+}
+
+.th-table-report {
+    min-width: 226px;
+}
+
+.dropdown-menu.list-table-codeservice {
+    position: absolute;
+    top: 10px !important;
+    left: 18px !important;
+    width: 226px;
+    height: 200px;
+    overflow-y: auto;
+    border-radius: 8px;
+}
+
+.items-checkbox-dropdown-report {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    height: 44px;
+}
+
+.items-checkbox-dropdown-report p {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #282739;
+}
+
+.items-checkbox-dropdown-report input {
+    width: 20px;
+    height: 20px;
+}

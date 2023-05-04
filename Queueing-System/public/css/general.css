@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;900&display=swap');
+
+body {
+    font-family: 'Nunito';
+    background-color: #F6F6F6;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    margin-left: 224px;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+}
+
+/* === Croll Dropdown === */
+
+
+.dropdown-menu::-webkit-scrollbar,
+.area-decentra::-webkit-scrollbar {
+    width: 0em;
+}
+
+.dropdown-menu:hover::-webkit-scrollbar,
+.area-decentra:hover::-webkit-scrollbar {
+    width: 0.3em;
+}
+
+.dropdown-menu:hover::-webkit-scrollbar-thumb,
+.area-decentra:hover::-webkit-scrollbar-thumb {
+    margin-left: 5px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track,
+.area-decentra::-webkit-scrollbar-track {
+    -webkit-box-shadow: none;
+    background-color: transparent;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb,
+.area-decentra::-webkit-scrollbar-thumb {
+    background-color: #FFAC6A;
+    outline: none;
+    border-radius: 20px;
+}

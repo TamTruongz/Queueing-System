@@ -1,0 +1,84 @@
+/* ========== Role ========== */
+
+.area-form-add-role {
+    width: 1192px;
+    height: 516px;
+    background: #FFFFFF;
+    box-shadow: 2px 2px 8px rgba(232, 239, 244, 0.8);
+    border-radius: 16px;
+    padding: 16px 24px;
+}
+
+.form-add-role {
+    display: flex;
+    justify-content: space-between;
+}
+
+.item-form-add-role input {
+    width: 560px;
+    height: 44px;
+    background: #FFFFFF;
+    border: 2px solid #D4D4D7;
+    border-radius: 8px;
+    padding-left: 12px;
+    margin-top: 5px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.item-form-add-role textarea {
+    width: 560px;
+    height: 160px;
+    background: #FFFFFF;
+    border: 2px solid #D4D4D7;
+    border-radius: 8px;
+    padding: 10px 12px;
+
+}
+
+.area-form-right-role {
+    margin-top: 10px;
+}
+
+.area-decentra {
+    width: 560px;
+    height: 420px;
+    background: #FFF2E7;
+    border-radius: 8px;
+    margin-top: 5px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.item-decentra {
+    padding: 16px 24px;
+}
+
+.item-decentra h2 {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 30px;
+    color: #FF7506;
+}
+
+.item-decentra ul {
+    margin: 0;
+    padding: 0;
+}
+
+.li-item-decentra {
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #535261;
+}
+
+.li-item-decentra input {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+}
