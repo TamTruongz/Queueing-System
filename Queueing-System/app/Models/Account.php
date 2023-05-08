@@ -14,10 +14,11 @@ class Account extends Model implements Authenticatable
     protected $fillable = [
         'name',
         'username',
-        'numberphone',
+        'phone',
         'email',
         'password',
         'role',
+        'status',
         'avatar'
     ];
 
@@ -53,5 +54,14 @@ class Account extends Model implements Authenticatable
     public function getRememberTokenName()
     {
         return 'remember_token';
+    }
+
+    public function isActive()
+    {
+        return $this->status == true;
+    }
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role', 'name');
     }
 }

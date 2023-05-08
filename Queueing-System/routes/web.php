@@ -3,6 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\TicketController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\RolesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,13 +22,19 @@ use App\Http\Controllers\AccountController;
 
 
 
-// ==== (Login - Forget - Reset) Router ====
+// ==== Login Router ====
 Route::get('/login', [AccountController::class, 'login'])->name('login');
 Route::post('/login', [AccountController::class, 'login']);
 
-Route::get('/forget', [AccountController::class, 'forget']);
-Route::get('reset_passwordn', [AccountController::class, 'reset_password']);
+// ==== Forget - Reset ====
+Route::get('/forget_password', [AccountController::class, 'forget_password'])->name('forget_password');
+Route::get('/reset_password', [AccountController::class, 'reset_password']);
 Route::post('/logout', [AccountController::class, 'logout'])->name('logout');
+
+// ==== Register Router ====
+Route::get('/register', [AccountController::class, 'register'])->name('register');
+Route::post('/register', [AccountController::class, 'store'])->name('register.store');
+
 
 // Đăng nhập vào trang
 Route::middleware(['auth'])->group(function () {
@@ -31,31 +42,57 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user_info', [AccountController::class, 'user_info'])->name('user_info');
 
     // ==== Dashboard Router ====
+    // ===== Default routes =====
+    Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
     // ==== Device Router ====
-    Route::get('/device', [HomeController::class, 'device']);
-    Route::get('/add_device', [HomeController::class, 'add_device']);
-    Route::get('/update_device', [HomeController::class, 'update_device']);
-    Route::get('/info_device', [HomeController::class, 'info_device']);
+    Route::get('/device', [DeviceController::class, 'device'])->name('device'); // == Quản lý
+    Route::get('/device/create', [DeviceController::class, 'create'])->name('device.create'); // == Thêm
+    Route::post('/device/create', [DeviceController::class, 'store']);
+
+    Route::get('/device/edit/{id}', [DeviceController::class, 'edit'])->name('device.edit'); // == Sửa
+    Route::post('/device/update/{id}', [DeviceController::class, 'update'])->name('device.update'); // Xử lý cập nhật
+
+    Route::get('/device/info/{id}', [DeviceController::class, 'info'])->name('device.info');
+
     // ==== Service Router ====
-    Route::get('/service', [HomeController::class, 'service']);
-    Route::get('/add_service', [HomeController::class, 'add_service']);
-    Route::get('/update_service', [HomeController::class, 'update_service']);
-    Route::get('/info_service', [HomeController::class, 'info_service']);
+    Route::get('/service', [ServiceController::class, 'service'])->name('service');
+
+    Route::get('/service/create', [ServiceController::class, 'create'])->name('service.create');
+    Route::post('/service/create', [ServiceController::class, 'store'])->name('service.store');
+
+    Route::get('/service/edit/{id}', [ServiceController::class, 'edit'])->name('service.edit');
+    Route::post('/service/update/{id}', [ServiceController::class, 'update'])->name('service.update');
+
+    Route::get('/service/info/{id}', [ServiceController::class, 'info'])->name('service.info');
+
     // ==== Cấp số Router ====
-    Route::get('/codes', [HomeController::class, 'codes']);
-    Route::get('/codes_new', [HomeController::class, 'codes_new']);
-    Route::get('/info_codes', [HomeController::class, 'info_codes']);
-    // ==== Cấp số Router ====
-    Route::get('/report', [HomeController::class, 'report']);
+    Route::get('/codes', [TicketController::class, 'ticket'])->name('ticket');
+
+    Route::get('/codes/create', [TicketController::class, 'create'])->name('ticket.create');
+    Route::post('/codes/create', [TicketController::class, 'store'])->name('ticket.store');
+    Route::get('/codes/info/{id}', [TicketController::class, 'info'])->name('ticket.info');
+
+    // ==== Báo cáo Router ====
+    Route::get('/report', [ReportController::class, 'report'])->name('report');
+
     // ==== Vai trò Router ====
-    Route::get('/role', [HomeController::class, 'role']);
-    Route::get('/add_role', [HomeController::class, 'add_role']);
-    Route::get('/update_role', [HomeController::class, 'update_role']);
+    Route::get('/role', [RolesController::class, 'role'])->name('role');
+
+    Route::get('/role/create', [RolesController::class, 'create'])->name('role.create');
+    Route::post('/role/create', [RolesController::class, 'store'])->name('role.store');
+
+    Route::get('/role/edit/{id}', [RolesController::class, 'edit'])->name('role.edit');
+    Route::post('/role/update/{id}', [RolesController::class, 'update'])->name('role.update');
+    
     // ==== Tài khoản Router ====
-    Route::get('/account', [HomeController::class, 'account']);
-    Route::get('/add_account', [HomeController::class, 'add_account']);
-    Route::get('/update_account', [HomeController::class, 'update_account']);
+    Route::get('/account', [AccountController::class, 'account'])->name('account');
+    
+    Route::get('/account/create', [AccountController::class, 'create'])->name('account.create');
+    Route::post('/account/create', [AccountController::class, 'store'])->name('account.store');
+
+    Route::get('/account/edit/{id}', [AccountController::class, 'edit'])->name('account.edit');
+    Route::post('/account/update/{id}', [AccountController::class, 'update'])->name('account.update');
 
     // ==== Nhật ký tài khoản Router ====
     Route::get('/logs_user', [HomeController::class, 'logs_user']);

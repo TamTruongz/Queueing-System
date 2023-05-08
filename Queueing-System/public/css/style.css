@@ -2,6 +2,7 @@
 .bgcolor-body-page {
     background-color: #B1B1B1;
 }
+
 .main-login {
     display: flex;
     align-items: center;
@@ -28,15 +29,30 @@
     display: flex;
     justify-content: center;
     margin: 50px 0;
+}
 
+.text-register {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+.text-register h3 {
+    color: #FF7506;
+    font-weight: 700;
+    font-size: 24px;
 }
 
 .logo-login svg {
     width: 130px;
-
 }
 
 .form-login {
+    display: flex;
+    justify-content: center;
+}
+
+.form-register {
     display: flex;
     justify-content: center;
 }
@@ -50,7 +66,7 @@
     font-weight: 400;
 }
 
-.box input {
+.box input, .box select {
     width: 280px;
     height: 35px;
     border: 1px solid #D4D4D7;
@@ -61,7 +77,7 @@
     font-weight: 400px;
 }
 
-.box input:focus {
+.box input:focus, .box select:focus {
     outline: none;
 }
 
@@ -81,6 +97,7 @@
     justify-content: center;
     margin-top: 15px;
 }
+
 
 .button-login button {
     background-color: #FF9138;
@@ -526,8 +543,3 @@
 .active-days span {
     color: #fff;
 }
-
-
-
-
-

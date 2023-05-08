@@ -54,7 +54,7 @@
 
         <a href="/user_info">
             <div class="navbar-user">
-                <img src="/images/{{ $userAvatar }}" alt="">
+                <img src="/images/avatar/{{ $userAvatar }}" alt="">
                 <div class="text-user">
                     <p class="text-hello">Xin chào</p>
                     <p class="name-user">{{ $userName }}</p>

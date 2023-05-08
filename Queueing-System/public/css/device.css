@@ -116,109 +116,7 @@
     margin-top: 8px;
 }
 
-/* table */
-.table-list-device {
-    width: 1112px;
-    margin-top: 16px;
-    border-radius: 12px;
-}
 
-table {
-    border-radius: 12px;
-    width: 1112px;
-    filter: drop-shadow(2px 2px 8px rgba(232, 239, 244, 0.8));
-}
-
-tbody {
-    border-radius: 12px;
-}
-
-table thead {
-    background-color: #FF9138;
-    color: #fff;
-    height: 49px;
-}
-
-.th-border-left {
-    border-radius: 12px 0px 0px 0px;
-}
-
-.th-border-right {
-    border-radius: 0px 12px 0px 0px;
-}
-
-tr {
-    height: 49px;
-}
-
-th {
-    padding: 12px;
-}
-
-td {
-    margin: 0;
-    padding: 0;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 21px;
-    color: #535261;
-    padding: 0 12px;
-}
-
-td a {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 21px;
-    text-decoration-line: underline;
-    color: #4277FF;
-}
-
-.border-table {
-    border-right: 2px solid #FFE3CD;
-    border-left: 2px solid #FFE3CD;
-}
-
-.color-tr-or {
-    background-color: #FFF2E7;
-}
-
-.color-tr-white {
-    background-color: #ffffff;
-}
-
-/* Phân trang */
-.area-pagination-page {
-    display: inline-block;
-    height: 32px;
-    float: right;
-    margin-top: 14px;
-}
-.pagination-page {
-    display: flex;
-}
-
-.pagination-page li {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.pagination-page li a {
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 22px;
-    color: #7E7D88;
-}
-
-.active-pagina-page {
-    background-color: #FF7506;
-}
-.active-pagina-page a {
-    color: #fff !important;
-} 
 /* ========== Info Device ========== */
 .info-device {
     margin-top: 20px;
@@ -271,6 +169,7 @@ td a {
     line-height: 24px;
     color: #535261;
 }
+
 /* ========== Add Device ========== */
 .content-add-device {
     margin-top: 104px;
@@ -319,7 +218,7 @@ td a {
     margin-left: 4px;
 }
 
-.item-form-add-device input {
+.item-form-add-device input, .item-form-add-device select {
     width: 540px;
     height: 44px;
     background: #FFFFFF;
@@ -346,7 +245,7 @@ td a {
     border-radius: 8px;
 }
 
-.item-form-add-device .dropdown .input-choose-device {
+.item-form-add-device .input-choose-device {
     width: 540px;
     height: 44px;
     background: #FFFFFF;
@@ -429,6 +328,7 @@ td a {
     right: 0;
     top: 150px;
 }
+
 /* ========== Update Device ========== */
 
 .input-update-device {

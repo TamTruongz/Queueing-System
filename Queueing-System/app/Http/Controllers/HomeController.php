@@ -13,59 +13,11 @@ class HomeController extends Controller
     }
 
     // ==== Device Page ====
-    public function device()
-    {
-        return view('layout.device');
-    }
 
-    public function add_device()
-    {
-        return view('layout.add_device');
-    }
-
-    public function info_device()
-    {
-        return view('layout.info_device');
-    }
-
-    public function update_device()
-    {
-        return view('layout.update_device');
-    }
     // ==== Service Page ====
-    public function service()
-    {
-        return view('layout.service');
-    }
 
-    public function info_service()
-    {
-        return view('layout.info_service');
-    }
-
-    public function add_service()
-    {
-        return view('layout.add_service');
-    }
-    public function update_service()
-    {
-        return view('layout.add_service');
-    }
 
     // ==== Cấp số ====
-
-    public function codes()
-    {
-        return view('layout.codes');
-    }
-    public function codes_new()
-    {
-        return view('layout.codes_new');
-    }
-    public function info_codes()
-    {
-        return view('layout.info_codes');
-    }
 
     // ==== Báo cấp ====
     public function report()

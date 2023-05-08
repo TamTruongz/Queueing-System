@@ -10,7 +10,7 @@
             <p class="heading-codes-new">CẤP SỐ MỚI</p>
             <p class="text-codes-new">Dịch vụ khách hàng lựa chọn</p>
 
-            <div class="dropdown status-device">
+            <!-- <div class="dropdown status-device">
                 <a class="btn-select-choose-service" role="button" id="dropdownMenuNameService" data-bs-toggle="dropdown" aria-expanded="false"> Chọn dịch vụ
                     <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1 1L7 7L13 1" fill="#FF7506" />
@@ -25,10 +25,21 @@
                     <li><a class="dropdown-item item-date-stats" href="#">Khám hô hấp</a></li>
                     <li><a class="dropdown-item item-date-stats" href="#">Khám tai mũi họng</a></li>
                 </ul>
-            </div>
+            </div> -->
+            <form id="form-add-ticket" action="{{ route('ticket.store') }}" method="post">
+                @csrf
+                <select class="btn-select-choose-service" name="service_name" id="">
+                    <option value="Khám tim mạch">Khám tim mạch</option>
+                    <option value="Khám sản - Phụ khoa">Khám sản - Phụ khoa</option>
+                    <option value="Khám răng hàm mặt">Khám răng hàm mặt</option>
+                    <option value="Khám tai mũi họng">Khám tai mũi họng</option>
+                </select>
+            </form>
+
 
             <div class="area-button-codenew">
                 <button class="btn-codenew-abort">Hủy bỏ</button>
+                <button form="form-add-ticket" class="btn-codenew-inso" type="submit">Cấp số</button>
                 <!-- Popup Button -->
                 <button class="btn-codenew-inso" data-bs-toggle="modal" data-bs-target="#staticBackdrop">In
                     số</button>
@@ -38,12 +49,16 @@
     </div>
 
     <!-- ==== Popup ==== -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <button type="button" class="btn-close-popup" data-bs-dismiss="modal" aria-label="Close"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M18 6L6 18" stroke="#FF9138" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M6 6L18 18" stroke="#FF9138" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                <button type="button" class="btn-close-popup" data-bs-dismiss="modal" aria-label="Close"><svg width="24"
+                        height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 6L6 18" stroke="#FF9138" stroke-width="3" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M6 6L18 18" stroke="#FF9138" stroke-width="3" stroke-linecap="round"
+                            stroke-linejoin="round" />
                     </svg>
                 </button>
                 <div class="content-header">

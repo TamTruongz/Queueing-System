@@ -9,8 +9,11 @@
 
     <link rel="shortcut icon" type="image/png/svg" href="/images/logo/alta.svg" />
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
 
     <!-- ===== IconBox ===== -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -37,9 +40,15 @@
     @yield('content')
     <!-- ==== End Content ==== -->
 
-    <!-- Menubar -->
+    <!-- ==== Menubar ==== -->
     @include('common.menubar')
-    <!-- ==== Menubar End ==== -->
+    <!-- ==== End Menubar ==== -->
+
+    <!-- ==== Popup Message ==== -->
+    @include('common.popup_message')
+    <!-- ==== End Popup Message ==== -->
 </body>
+<script src="js/general.js"></script>
+<script src="js/PopupMessage.js"></script>
 
 </html>

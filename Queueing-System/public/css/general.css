@@ -12,11 +12,15 @@ main {
 }
 
 a {
+    margin: 0;
+    padding: 0;
     color: white;
     text-decoration: none;
 }
 
 li {
+    margin: 0;
+    padding: 0;
     list-style: none;
 }
 
@@ -58,4 +62,200 @@ input:focus, textarea:focus {
     background-color: #FFAC6A;
     outline: none;
     border-radius: 20px;
+}
+
+/* ===== TABLE ===== */
+.table-list-device {
+    width: 1112px;
+    margin-top: 16px;
+    border-radius: 12px;
+}
+
+table {
+    border-radius: 12px;
+    width: 1112px;
+    filter: drop-shadow(2px 2px 8px rgba(232, 239, 244, 0.8));
+}
+
+tbody {
+    border-radius: 12px;
+}
+
+table thead {
+    background-color: #FF9138;
+    color: #fff;
+    height: 49px;
+}
+
+.th-border-left {
+    border-radius: 12px 0px 0px 0px;
+}
+
+.th-border-right {
+    border-radius: 0px 12px 0px 0px;
+}
+
+tr {
+    height: 49px;
+}
+
+th {
+    padding: 12px;
+}
+
+td {
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #535261;
+    padding: 0 12px;
+}
+
+td a {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    text-decoration-line: underline;
+    color: #4277FF;
+}
+
+table tbody tr:last-child td:first-child {
+    border-radius: 0px 0px 0px 12px;
+}
+
+.border-table {
+    border-right: 2px solid #FFE3CD;
+    border-left: 2px solid #FFE3CD;
+}
+
+table tbody tr:last-child td:last-child {
+    border-radius: 0px 0px 12px 0px;
+}
+
+table tbody tr:nth-of-type(odd) {
+    background-color: #fff;
+}
+
+table tbody tr:nth-of-type(even) {
+    background-color: #FFF2E7;
+}
+
+
+/* ===== Phân trang ===== */
+.area-pagination-page {
+    display: inline-block;
+    height: 32px;
+    position: fixed;
+    bottom: 0;
+    right: 220px;
+    margin-bottom: 10px;
+}
+
+.pagination-page {
+    display: flex;
+}
+
+.pagination-page li {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination-page li a {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+    color: #7E7D88;
+}
+
+.pagination-page li:hover {
+    background-color: #fed0ab;
+}
+
+.active-pagina-page {
+    background-color: #FF7506;
+}
+
+.active-pagina-page a {
+    color: #fff !important;
+}
+
+/* ==== Message Error Validate ==== */
+
+.alert-danger {
+    background-color: transparent;
+    color: red;
+    margin: 0px 10px;
+}
+/* ==== Popup Message ==== */
+#Message {
+    display: block;
+    position: fixed;
+    z-index: 1;
+    padding-top: 15px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.area-message {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    width: 30%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+    text-align: center;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+@keyframes animatetop {
+    from {
+        top: -200px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+/* Reponsive */
+@media (max-width: 768px) {
+    .area-message {
+        width: 90%;
+    }
+}
+
+@media (min-width:800px) and (max-width:980px) {
+    .area-message {
+        width: 70%;
+    }
 }
