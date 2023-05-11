@@ -12,7 +12,7 @@
 
             <form id="form-update-device" class="form-add-device"
                 action="{{ route('device.update', ['id' => $device->id]) }}" method="POST">
-
+                @method('PUT')
                 <div class="item-form-add-device">
                     <label for="device_id">Mã thiết bị: <svg width="6" height="6" viewBox="0 0 6 6" fill="none"
                             xmlns="http://www.w3.org/2000/svg">

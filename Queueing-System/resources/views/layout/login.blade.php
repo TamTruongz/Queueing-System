@@ -42,34 +42,20 @@
                     </defs>
                 </svg>
             </div>
-            <!-- {{$hash = Hash::make('123456')}} -->
             <div class="form-login">
 
                 <form action="" method="POST">
-                    @if ($errors->any())
-                    <div class="alert-danger">
-                        @foreach ($errors->all() as $error)
-                        <span class="d-block">{{ $error}}</span>
-                        @endforeach
-                    </div>
-                    @endif
-
-                    @if(session('error'))
-                    <div class="alert-danger">
-                        {{session('error')}}
-                    </div>
-                    @elseif(session('success_loign'))
-                    <div class="alert-success">
-                        {{session('success')}}
-                    </div>
-                    @endif
                     <div class="box">
-                        <label for="username">Tên đăng nhập *</label>
+                        <label for="username">Tên đăng nhập * @if($errors->has('username'))
+                        <div class="alert-danger">{{ $errors->first('username') }}</div>
+                        @endif</label>
                         <input type="text" name="username" required placeholder="Nhập tên đăng nhập">
                     </div>
 
                     <div class="box mt-2">
-                        <label for="password">Mật khẩu *</label>
+                        <label for="password">Mật khẩu * @if($errors->has('password'))
+                        <div class="alert-danger">{{ $errors->first('password') }}</div>
+                        @endif</label>
                         <input type="password" name="password" required placeholder="Nhập mật khẩu">
                     </div>
 

@@ -9,8 +9,13 @@
 
         <div class="area-form-add-role">
             <p class="infomation-device">Thông tin vai trò</p>
-            <form id="form-add-role" action="{{ !isset($role) ? route('role.store') : route('role.update', ['id' => $role->id]) }}" method="POST">
+            <form id="form-add-role"
+                action="{{ !isset($role) ? route('role.store') : route('role.update', ['id' => $role->id]) }}"
+                method="POST">
                 @csrf
+                @if(isset($role))
+                @method('PUT')
+                @endif
                 <div class="form-add-role">
                     <div>
                         <div class="item-form-add-role">

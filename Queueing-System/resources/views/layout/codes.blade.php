@@ -10,66 +10,34 @@
 
         <div class="menubar-device">
             <div class="area-filter">
-                <div class="dropdown status-device">
+                <div class="status-device">
                     <p class="text-status-device">Tên dịch vụ</p>
-
-                    <button class="btn-select-service" role="button" id="dropdownMenuNameService"
-                        data-bs-toggle="dropdown" aria-expanded="false"> Tất cả
-                        <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1 1L7 7L13 1" fill="#FF7506" />
-                            <path d="M1 1L7 7L13 1H1Z" stroke="#FF7506" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </button>
-
-                    <ul class="dropdown-menu list-name-service" aria-labelledby="dropdownMenuNameService">
-                        <li><a class="dropdown-item active-date-stats item-date-stats" href="#">Tất cả</a>
-                        </li>
-                        <li><a class="dropdown-item item-date-stats" href="#">Khám sản - Phụ khoa</a></li>
-                        <li><a class="dropdown-item item-date-stats" href="#">Khám răng hàm mặt</a></li>
-                        <li><a class="dropdown-item item-date-stats" href="#">Khám tim mạch</a></li>
-                        <li><a class="dropdown-item item-date-stats" href="#">Khám hô hấp</a></li>
-                        <li><a class="dropdown-item item-date-stats" href="#">Khám tai mũi họng</a></li>
-                    </ul>
+                    <select class="btn-select-service" name="filter_name_code" id="filter_name_code">
+                        <option value=" ">Tất cả</option>
+                        @foreach($services as $services)
+                        <option {!! (request()->input('filter_name')) == $services->service_name ? 'selected' : '' !!} value="{{ $services->service_name }}">{{ $services->service_name }}</option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="dropdown status-device">
                     <p class="text-status-device">Tình trạng</p>
-                    <button class="btn-condition" role="button" id="dropdownMenuCondition" data-bs-toggle="dropdown"
-                        aria-expanded="false"> Tất cả
-                        <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1 1L7 7L13 1" fill="#FF7506" />
-                            <path d="M1 1L7 7L13 1H1Z" stroke="#FF7506" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </button>
-
-                    <ul class="dropdown-menu list-name-service" aria-labelledby="dropdownMenuCondition">
-                        <li><a class="dropdown-item active-date-stats item-date-stats" href="#">Tất cả</a>
-                        </li>
-                        <li><a class="dropdown-item item-date-stats" href="#">Đang chờ</a></li>
-                        <li><a class="dropdown-item item-date-stats" href="#">Đã sử dụng</a></li>
-                        <li><a class="dropdown-item item-date-stats" href="#">Bỏ qua</a></li>
-                    </ul>
+                    <select class="btn-condition" name="filter_status" id="filter_status_code">
+                        <option value=" ">Tất cả</option>
+                        <option {!! (request()->input('filter_status')) == 'pending' ? 'selected' : '' !!} value="pending">Đang chờ</option>
+                        <option {!! (request()->input('filter_status')) == 'used' ? 'selected' : '' !!} value="used">Đã sử dụng</option>
+                        <option {!! (request()->input('filter_status')) == 'skipped' ? 'selected' : '' !!} value="skipped">Bỏ qua</option>
+                    </select>
                 </div>
 
                 <div class="dropdown status-device">
                     <p class="text-status-device">Nguồn cấp</p>
-                    <button class="btn-condition" role="button" id="dropdownMenuFurnish" data-bs-toggle="dropdown"
-                        aria-expanded="false"> Tất cả
-                        <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1 1L7 7L13 1" fill="#FF7506" />
-                            <path d="M1 1L7 7L13 1H1Z" stroke="#FF7506" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </button>
 
-                    <ul class="dropdown-menu list-furnish" aria-labelledby="dropdownMenuFurnish">
-                        <li><a class="dropdown-item active-date-stats item-date-stats" href="#">Tất cả</a>
-                        </li>
-                        <li><a class="dropdown-item item-date-stats" href="#">Kiosk</a></li>
-                        <li><a class="dropdown-item item-date-stats" href="#">Hệ thống</a></li>
-                    </ul>
+                    <select class="btn-condition" name="filter_source" id="filter_source_code">
+                        <option value=" ">Tất cả</option>
+                        <option {!! (request()->input('filter_source')) == 'Kiosk' ? 'selected' : '' !!} value="Kiosk">Kiosk</option>
+                        <option {!! (request()->input('filter_source')) == 'system' ? 'selected' : '' !!} value="system">Hệ thống</option>
+                    </select>
                 </div>
 
                 <div class="area-date">
@@ -89,19 +57,23 @@
 
             <div class="area-search">
                 <p class="text-status-device">Từ khóa</p>
-                <div class="input-search">
-                    <input class="search-menubar-codes" type="text" placeholder="Nhập từ khóa">
-                    <button class="btn-search-menubar-device" type="submit">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M9.16667 15.8333C12.8486 15.8333 15.8333 12.8486 15.8333 9.16667C15.8333 5.48477 12.8486 2.5 9.16667 2.5C5.48477 2.5 2.5 5.48477 2.5 9.16667C2.5 12.8486 5.48477 15.8333 9.16667 15.8333Z"
-                                stroke="#FF7506" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M17.5 17.5L13.875 13.875" stroke="#FF7506" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </button>
+                <form action="{{ route('ticket.search') }}" method="get">
+                    <div class="input-search">
+                        <input name="search_ticket" class="search-menubar-codes" type="text" placeholder="Nhập từ khóa"
+                            value="{{ $searchTerm ?? '' }}">
+                        <button class="btn-search-menubar-device" type="submit">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M9.16667 15.8333C12.8486 15.8333 15.8333 12.8486 15.8333 9.16667C15.8333 5.48477 12.8486 2.5 9.16667 2.5C5.48477 2.5 2.5 5.48477 2.5 9.16667C2.5 12.8486 5.48477 15.8333 9.16667 15.8333Z"
+                                    stroke="#FF7506" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M17.5 17.5L13.875 13.875" stroke="#FF7506" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
 
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -117,7 +89,9 @@
                     <p>Cấp số mới</p>
                 </div>
             </a>
-
+            @if ($tickets->count() == 0)
+            <p>Không có kết quả nào được tìm thấy ! </p>
+            @else
             <table>
                 <thead>
                     <tr>
@@ -172,16 +146,15 @@
                     @endforeach
                 </tbody>
             </table>
+            @endif
 
-            <!-- ==== Phân trang ==== -->
-            @if (isset($hidePagination) && $hidePagination)
-            <!-- Ẩn phân trang -->
-            @else
+            <!-- Phân trang -->
+            @if ($tickets->lastPage() > 1)
             <div class="area-pagination-page">
                 <ul class="pagination-page">
                     @if ($tickets->currentPage() > 1)
-
-                    <a href="{{ $tickets->previousPageUrl() }}">
+                    <a
+                        href="{{ $tickets->previousPageUrl() }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}">
                         <li>
                             <svg width="8" height="12" viewBox="0 0 8 12" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -192,30 +165,71 @@
                         </li>
                     </a>
                     @endif
-                    @for ($i = 1; $i <= $tickets->lastPage(); $i++)
+
+                    @if ($tickets->lastPage() <= 6) @for ($i=1; $i <=$tickets->lastPage(); $i++)
                         <li class="{{ ($tickets->currentPage() == $i) ? 'active-pagina-page' : '' }}">
-                            <a href="{{ $tickets->url($i) }}">{{ $i }}</a>
+                            <a
+                                href="{{ $tickets->url($i) }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}">{{ $i }}</a>
                         </li>
                         @endfor
-                        @if ($tickets->currentPage() < $tickets->lastPage())
-
-                            <a href="{{ $tickets->nextPageUrl() }}">
-                                <li>
-                                    <svg width="8" height="12" viewBox="0 0 8 12" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M1 11L7 6L1 1" fill="#7E7D88" />
-                                        <path d="M1 11L7 6L1 1L1 11Z" stroke="#7E7D88" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
+                        @else
+                        <li class="{{ ($tickets->currentPage() == 1) ? 'active-pagina-page' : '' }}">
+                            <a
+                                href="{{ $tickets->url(1) }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}">1</a>
+                        </li>
+                        @if ($tickets->currentPage() > 3 && $tickets->lastPage() > 6)
+                        <li><span>...</span></li>
+                        @endif
+                        @for ($i = max(2, $tickets->currentPage() - 2); $i <= min($tickets->currentPage() + 2,
+                            $tickets->lastPage() - 1); $i++)
+                            <li class="{{ ($tickets->currentPage() == $i) ? 'active-pagina-page' : '' }}">
+                                <a
+                                    href="{{ $tickets->url($i) }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}">{{ $i }}</a>
+                            </li>
+                            @endfor
+                            @if ($tickets->currentPage() < $tickets->lastPage() - 2 && $tickets->lastPage() > 6)
+                                <li><span>...</span></li>
+                                @endif
+                                <li
+                                    class="{{ ($tickets->currentPage() == $tickets->lastPage()) ? 'active-pagina-page' : '' }}">
+                                    <a
+                                        href="{{ $tickets->url($tickets->lastPage()) }}&search_ticket={!!isset($searchTerm) ? $searchTerm : '' !!}">{{ $tickets->lastPage() }}</a>
                                 </li>
-                            </a>
+                                @endif
 
-                            @endif
+                                @if ($tickets->currentPage() < $tickets->lastPage())
+                                    <a
+                                        href="{{ $tickets->nextPageUrl() }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                                        <li>
+                                            <svg width="8" height="12" viewBox="0 0 8 12" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M1 11L7 6L1 1" fill="#7E7D88" />
+                                                <path d="M1 11L7 6L1 1L1 11Z" stroke="#7E7D88" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </li>
+                                    </a>
+                                    @endif
                 </ul>
-
             </div>
             @endif
+
         </div>
     </div>
 </main>
+
+<script>
+$(document).ready(function() {
+    $('#filter_name_code, #filter_status_code, #filter_source_code').change(function() {
+        var filter_name_id = $('#filter_name_code').val();
+        var filter_status_id = $('#filter_status_code').val();
+        var filter_source_id = $('#filter_source_code').val();
+
+        var url = '{{ route("ticket.filter") }}?filter_name=' + filter_name_id + '&filter_status=' +
+            filter_status_id + '&filter_source=' + filter_source_id;
+        window.location.href = url;
+    });
+
+});
+</script>
 @endsection

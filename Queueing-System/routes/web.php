@@ -51,9 +51,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/device/create', [DeviceController::class, 'store']);
 
     Route::get('/device/edit/{id}', [DeviceController::class, 'edit'])->name('device.edit'); // == Sửa
-    Route::post('/device/update/{id}', [DeviceController::class, 'update'])->name('device.update'); // Xử lý cập nhật
+    Route::put('/device/update/{id}', [DeviceController::class, 'update'])->name('device.update'); // Xử lý cập nhật
 
     Route::get('/device/info/{id}', [DeviceController::class, 'info'])->name('device.info');
+
+    Route::get('/device/search', [DeviceController::class, 'search'])->name('device.search'); // == Tìm kiếm
+    Route::get('/device/filter', [DeviceController::class, 'filter'])->name('device.filter'); // == lọc
 
     // ==== Service Router ====
     Route::get('/service', [ServiceController::class, 'service'])->name('service');
@@ -62,9 +65,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/service/create', [ServiceController::class, 'store'])->name('service.store');
 
     Route::get('/service/edit/{id}', [ServiceController::class, 'edit'])->name('service.edit');
-    Route::post('/service/update/{id}', [ServiceController::class, 'update'])->name('service.update');
+    Route::put('/service/update/{id}', [ServiceController::class, 'update'])->name('service.update');
 
     Route::get('/service/info/{id}', [ServiceController::class, 'info'])->name('service.info');
+
+    Route::get('/service/search', [ServiceController::class, 'search'])->name('service.search'); // == Tìm kiếm
+
+    Route::get('/service/filter', [ServiceController::class, 'filter'])->name('service.filter'); // == lọc
 
     // ==== Cấp số Router ====
     Route::get('/codes', [TicketController::class, 'ticket'])->name('ticket');
@@ -72,6 +79,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/codes/create', [TicketController::class, 'create'])->name('ticket.create');
     Route::post('/codes/create', [TicketController::class, 'store'])->name('ticket.store');
     Route::get('/codes/info/{id}', [TicketController::class, 'info'])->name('ticket.info');
+
+    Route::get('/codes/search', [TicketController::class, 'search'])->name('ticket.search'); // == Tìm kiếm
+
+    Route::get('/codes/filter', [TicketController::class, 'filter'])->name('ticket.filter'); // == lọc
 
     // ==== Báo cáo Router ====
     Route::get('/report', [ReportController::class, 'report'])->name('report');
@@ -83,8 +94,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/role/create', [RolesController::class, 'store'])->name('role.store');
 
     Route::get('/role/edit/{id}', [RolesController::class, 'edit'])->name('role.edit');
-    Route::post('/role/update/{id}', [RolesController::class, 'update'])->name('role.update');
+    Route::put('/role/update/{id}', [RolesController::class, 'update'])->name('role.update');
     
+    Route::get('/role/search', [RolesController::class, 'search'])->name('role.search'); // == Tìm kiếm
     // ==== Tài khoản Router ====
     Route::get('/account', [AccountController::class, 'account'])->name('account');
     
@@ -92,7 +104,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/account/create', [AccountController::class, 'store'])->name('account.store');
 
     Route::get('/account/edit/{id}', [AccountController::class, 'edit'])->name('account.edit');
-    Route::post('/account/update/{id}', [AccountController::class, 'update'])->name('account.update');
+    Route::put('/account/update/{id}', [AccountController::class, 'update'])->name('account.update');
+
+    Route::get('/account/search', [AccountController::class, 'search'])->name('account.search'); // == Tìm kiếm
+
+    Route::get('/account/filter', [AccountController::class, 'filter'])->name('account.filter'); // == lọc
 
     // ==== Nhật ký tài khoản Router ====
     Route::get('/logs_user', [HomeController::class, 'logs_user']);

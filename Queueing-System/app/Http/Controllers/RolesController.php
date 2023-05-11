@@ -77,4 +77,17 @@ class RolesController extends Controller
 
         return redirect()->route('role')->with('success', 'Vai trò đã được cập nhật thành công!');
     }
+
+    public function search(Request $request)
+    {
+        $searchTerm = $request->input('search_role');
+
+        $roles = DB::table('roles')
+            ->where(function ($query) use ($searchTerm) {
+                $query->where('name', 'like', '%'.$searchTerm.'%')
+                    ->orWhere('count', 'like', '%'.$searchTerm.'%')
+                    ->orWhere('description', 'like', '%'.$searchTerm.'%');
+            })->paginate(9);
+            return view('layout.role', ['roles' => $roles, 'searchTerm'=>$searchTerm]);
+    }
 }

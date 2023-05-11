@@ -8,60 +8,48 @@
 
         <div class="menubar-device">
             <div class="area-filter">
-                <div class="dropdown status-device">
+                <div class="status-device">
                     <p class="text-status-device">Trạng thái hoạt động</p>
-                    <a class="btn-select-device" href="#" role="button" id="dropdownMenuStatusDevice"
-                        data-bs-toggle="dropdown" aria-expanded="false"> Tất cả
-                        <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1 1L7 7L13 1" fill="#FF7506" />
-                            <path d="M1 1L7 7L13 1H1Z" stroke="#FF7506" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </a>
-
-                    <ul class="dropdown-menu list-status-active-device" aria-labelledby="dropdownMenuStatusDevice">
-                        <li><a class="dropdown-item active-date-stats item-date-stats" href="#">Tất cả</a>
-                        </li>
-                        <li><a class="dropdown-item item-date-stats" href="#">Hoạt động</a></li>
-                        <li><a class="dropdown-item item-date-stats" href="#">Ngừng hoạt động</a></li>
-                    </ul>
+                    <select class="btn-select-device" name="filter_status" id="filter_status">
+                        <option value=" ">Tất cả</option>
+                        <option {!! (request()->input('filter_status')) == 'active' ? 'selected' : '' !!}
+                            value="active">Hoạt động</option>
+                        <option {!! (request()->input('filter_status')) == 'inactive' ? 'selected' : '' !!}
+                            value="inactive">Ngưng hoạt động</option>
+                    </select>
                 </div>
 
-                <div class="dropdown status-connect">
+                <div class="status-connect">
                     <p class="text-status-device">Trạng thái kết nối</p>
-                    <a class="btn-select-device" href="#" role="button" id="dropdownMenuStatusConnect"
-                        data-bs-toggle="dropdown" aria-expanded="false"> Tất cả
-                        <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1 1L7 7L13 1" fill="#FF7506" />
-                            <path d="M1 1L7 7L13 1H1Z" stroke="#FF7506" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </a>
-
-                    <ul class="dropdown-menu list-status-active-device" aria-labelledby="dropdownMenuStats">
-                        <li><a class="dropdown-item active-date-stats item-date-stats" href="#">Tất cả</a>
-                        </li>
-                        <li><a class="dropdown-item item-date-stats" href="#">Kết nối</a></li>
-                        <li><a class="dropdown-item item-date-stats" href="#">Mất kết nối</a></li>
-                    </ul>
+                    <select class="btn-select-device" name="filter_connect" id="filter_connect">
+                        <option value="">Tất cả</option>
+                        <option {!! (request()->input('filter_connect')) == 'connected' ? 'selected' : '' !!}
+                            value="connected">Kết nối</option>
+                        <option {!! (request()->input('filter_connect')) == 'disconnected' ? 'selected' : '' !!}
+                            value="disconnected">Ngưng kết nối</option>
+                    </select>
                 </div>
             </div>
 
             <div class="area-search">
                 <p class="text-status-device">Từ khóa</p>
-                <div class="input-search">
-                    <input class="search-menubar-device" type="text" placeholder="Nhập từ khóa">
-                    <button class="btn-search-menubar-device" type="submit">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M9.16667 15.8333C12.8486 15.8333 15.8333 12.8486 15.8333 9.16667C15.8333 5.48477 12.8486 2.5 9.16667 2.5C5.48477 2.5 2.5 5.48477 2.5 9.16667C2.5 12.8486 5.48477 15.8333 9.16667 15.8333Z"
-                                stroke="#FF7506" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M17.5 17.5L13.875 13.875" stroke="#FF7506" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </button>
+                <form action="{{ route('device.search') }}" method="get">
+                    <div class="input-search">
+                        <input name="search_device" class="search-menubar-device" type="text" placeholder="Nhập từ khóa"
+                            value="{{ $searchTerm ?? '' }}">
+                        <button class="btn-search-menubar-device" type="submit">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M9.16667 15.8333C12.8486 15.8333 15.8333 12.8486 15.8333 9.16667C15.8333 5.48477 12.8486 2.5 9.16667 2.5C5.48477 2.5 2.5 5.48477 2.5 9.16667C2.5 12.8486 5.48477 15.8333 9.16667 15.8333Z"
+                                    stroke="#FF7506" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M17.5 17.5L13.875 13.875" stroke="#FF7506" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
 
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -77,6 +65,9 @@
                     <p>Thêm thiết bị</p>
                 </div>
             </a>
+            @if ($devices->count() == 0)
+            <p>Không có kết quả nào được tìm thấy ! </p>
+            @else
             <table>
                 <thead>
                     <tr>
@@ -137,16 +128,15 @@
                     @endforeach
                 </tbody>
             </table>
+            @endif
 
             <!-- ==== Phân trang ==== -->
-            @if (isset($hidePagination) && $hidePagination)
-            <!-- Ẩn phân trang -->
-            @else
+            @if ($devices->lastPage() > 1)
             <div class="area-pagination-page">
                 <ul class="pagination-page">
                     @if ($devices->currentPage() > 1)
-
-                    <a href="{{ $devices->previousPageUrl() }}">
+                    <a
+                        href="{{ $devices->previousPageUrl() }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}">
                         <li>
                             <svg width="8" height="12" viewBox="0 0 8 12" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -157,30 +147,71 @@
                         </li>
                     </a>
                     @endif
-                    @for ($i = 1; $i <= $devices->lastPage(); $i++)
+
+                    @if ($devices->lastPage() <= 6) @for ($i=1; $i <=$devices->lastPage(); $i++)
                         <li class="{{ ($devices->currentPage() == $i) ? 'active-pagina-page' : '' }}">
-                            <a href="{{ $devices->url($i) }}">{{ $i }}</a>
+                            <a
+                                href="{{ $devices->url($i) }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}">{{ $i }}</a>
                         </li>
                         @endfor
-                        @if ($devices->currentPage() < $devices->lastPage())
-
-                            <a href="{{ $devices->nextPageUrl() }}">
-                                <li>
-                                    <svg width="8" height="12" viewBox="0 0 8 12" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M1 11L7 6L1 1" fill="#7E7D88" />
-                                        <path d="M1 11L7 6L1 1L1 11Z" stroke="#7E7D88" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
+                        @else
+                        <li class="{{ ($devices->currentPage() == 1) ? 'active-pagina-page' : '' }}">
+                            <a
+                                href="{{ $devices->url(1) }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}">1</a>
+                        </li>
+                        @if ($devices->currentPage() > 3 && $devices->lastPage() > 6)
+                        <li><span>...</span></li>
+                        @endif
+                        @for ($i = max(2, $devices->currentPage() - 2); $i <= min($devices->currentPage() + 2,
+                            $devices->lastPage() - 1); $i++)
+                            <li class="{{ ($devices->currentPage() == $i) ? 'active-pagina-page' : '' }}">
+                                <a
+                                    href="{{ $devices->url($i) }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}">{{ $i }}</a>
+                            </li>
+                            @endfor
+                            @if ($devices->currentPage() < $devices->lastPage() - 2 && $devices->lastPage() > 6)
+                                <li><span>...</span></li>
+                                @endif
+                                <li
+                                    class="{{ ($devices->currentPage() == $devices->lastPage()) ? 'active-pagina-page' : '' }}">
+                                    <a
+                                        href="{{ $devices->url($devices->lastPage()) }}&search_device={!!isset($searchTerm) ? $searchTerm : '' !!}">{{ $devices->lastPage() }}</a>
                                 </li>
-                            </a>
+                                @endif
 
-                            @endif
+                                @if ($devices->currentPage() < $devices->lastPage())
+                                    <a
+                                        href="{{ $devices->nextPageUrl() }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                                        <li>
+                                            <svg width="8" height="12" viewBox="0 0 8 12" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M1 11L7 6L1 1" fill="#7E7D88" />
+                                                <path d="M1 11L7 6L1 1L1 11Z" stroke="#7E7D88" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </li>
+                                    </a>
+                                    @endif
                 </ul>
-
             </div>
             @endif
+
+
         </div>
     </div>
 </main>
+
+<script>
+$(document).ready(function() {
+    $('#filter_status, #filter_connect').change(function() {
+        var filter_status_id = $('#filter_status').val();
+        var filter_connect_id = $('#filter_connect').val();
+
+        var url = '{{ route("device.filter") }}?filter_status=' + filter_status_id +
+            '&filter_connect=' + filter_connect_id;
+        window.location.href = url;
+    });
+
+});
+</script>
 @endsection

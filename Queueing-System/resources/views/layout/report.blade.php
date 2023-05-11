@@ -31,7 +31,9 @@
                     <p>Tải về</p>
                 </div>
             </a>
-
+            @if ($tickets->count() == 0)
+            <p>Không có kết quả nào được tìm thấy ! </p>
+            @else
             <table>
                 <thead>
                     <tr>
@@ -213,15 +215,13 @@
                     @endforeach
                 </tbody>
             </table>
+            @endif
 
             <!-- ==== Phân trang ==== -->
-            @if (isset($hidePagination) && $hidePagination)
-            <!-- Ẩn phân trang -->
-            @else
+            @if ($tickets->lastPage() > 1)
             <div class="area-pagination-page">
                 <ul class="pagination-page">
                     @if ($tickets->currentPage() > 1)
-
                     <a href="{{ $tickets->previousPageUrl() }}">
                         <li>
                             <svg width="8" height="12" viewBox="0 0 8 12" fill="none"
@@ -233,27 +233,48 @@
                         </li>
                     </a>
                     @endif
-                    @for ($i = 1; $i <= $tickets->lastPage(); $i++)
+
+                    @if ($tickets->lastPage() <= 6) @for ($i=1; $i <=$tickets->lastPage(); $i++)
                         <li class="{{ ($tickets->currentPage() == $i) ? 'active-pagina-page' : '' }}">
                             <a href="{{ $tickets->url($i) }}">{{ $i }}</a>
                         </li>
                         @endfor
-                        @if ($tickets->currentPage() < $tickets->lastPage())
-
-                            <a href="{{ $tickets->nextPageUrl() }}">
-                                <li>
-                                    <svg width="8" height="12" viewBox="0 0 8 12" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M1 11L7 6L1 1" fill="#7E7D88" />
-                                        <path d="M1 11L7 6L1 1L1 11Z" stroke="#7E7D88" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
+                        @else
+                        <li class="{{ ($tickets->currentPage() == 1) ? 'active-pagina-page' : '' }}">
+                            <a href="{{ $tickets->url(1) }}">1</a>
+                        </li>
+                        @if ($tickets->currentPage() > 3 && $tickets->lastPage() > 6)
+                        <li><span>...</span></li>
+                        @endif
+                        @for ($i = max(2, $tickets->currentPage() - 2); $i <= min($tickets->currentPage() + 2,
+                            $tickets->lastPage() - 1); $i++)
+                            <li class="{{ ($tickets->currentPage() == $i) ? 'active-pagina-page' : '' }}">
+                                <a href="{{ $tickets->url($i) }}">{{ $i }}</a>
+                            </li>
+                            @endfor
+                            @if ($tickets->currentPage() < $tickets->lastPage() - 2 && $tickets->lastPage() > 6)
+                                <li><span>...</span></li>
+                                @endif
+                                <li
+                                    class="{{ ($tickets->currentPage() == $tickets->lastPage()) ? 'active-pagina-page' : '' }}">
+                                    <a href="{{ $tickets->url($tickets->lastPage()) }}">{{ $tickets->lastPage() }}</a>
                                 </li>
-                            </a>
+                                @endif
 
-                            @endif
+                                <!-- {{-- Nút trang kế tiếp --}} -->
+                                @if ($tickets->currentPage() < $tickets->lastPage())
+                                    <a href="{{ $tickets->nextPageUrl() }}">
+                                        <li>
+                                            <svg width="8" height="12" viewBox="0 0 8 12" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M1 11L7 6L1 1" fill="#7E7D88" />
+                                                <path d="M1 11L7 6L1 1L1 11Z" stroke="#7E7D88" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </li>
+                                    </a>
+                                    @endif
                 </ul>
-
             </div>
             @endif
         </div>

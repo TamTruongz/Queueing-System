@@ -36,6 +36,12 @@ class ServiceController extends Controller
             'surfix' => 'nullable|boolean',
             'reset_daily' => 'nullable|boolean',
             'at_least_one_selected' => 'required_without_all:auto_increment,prefix,suffix,reset_daily',
+        ], [
+            'service_code.required'=> 'Vui lòng nhập mã dịch vụ !',
+            'service_code.max:255'=> 'Mã dịch vụ quá dài !',
+            'service_code.unique'=> 'Mã dịch vụ tồn tại !',
+            'service_name.required'=> 'Vui lòng nhập tên dịch vụ !',
+            'at_least_one_selected.required_without_all'=> 'Vui lòng chọn ít nhất 1 trường !',
         ]);
 
         try {
@@ -54,31 +60,25 @@ class ServiceController extends Controller
 
     public function update(Request $request, $id)
     {
-        $service = Service::findOrFail($id);
+        $data = $request->validate([
+            'service_code' => 'required|string|max:255',
+            'service_name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'auto_increment' => 'nullable|boolean',
+            'prefix' => 'nullable|boolean',
+            'surfix' => 'nullable|boolean',
+            'reset_daily' => 'nullable|boolean',
+            'at_least_one_selected' => 'required_without_all:auto_increment,prefix,suffix,reset_daily',
+        ]);
+    
+        $data['auto_increment'] = $request->has('auto_increment') ? true : false;
+        $data['prefix'] = $request->has('prefix') ? true : false;
+        $data['surfix'] = $request->has('surfix') ? true : false;
+        $data['reset_daily'] = $request->has('reset_daily') ? true : false;
 
-        // $request->validate([
-        //     'service_code' => 'required|string|max:255',
-        //     'service_name' => 'required|string|max:255',
-        //     'description' => 'nullable|string',
-        //     'auto_increment' => 'nullable|boolean',
-        //     'prefix' => 'nullable|boolean',
-        //     'suffix' => 'nullable|boolean',
-        //     'reset_daily' => 'nullable|boolean',
-        //     'at_least_one_selected' => 'required_without_all:auto_increment,prefix,suffix,reset_daily',
-        // ]);
-        $service->service_code = $request->get('service_code');
-        $service->service_name = $request->get('service_name');
-        $service->description = $request->get('description');
-        $service->auto_increment = $request->get('auto_increment');
-        $service->prefix = $request->get('prefix');
-        $service->suffix = $request->get('suffix');
-        $service->reset_daily = $request->get('reset_daily');  
-        try {
-            $service->save();
-            return redirect()->route('/service', $service)->with('success', 'Cập nhật dịch vụ thành công!');
-        } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => 'Cập nhật dịch vụ thất bại!']);
-        }
+        $service = Service::findOrFail($id);
+        $service->update($data);
+        return redirect()->route('service', $service)->with('success', 'Cập nhật dịch vụ thành công!');
     }
 
     public function info($id)
@@ -87,10 +87,29 @@ class ServiceController extends Controller
         return view('layout.info_service', compact('service'));
     }
 
-    // public function destroy(Service $service)
-    // {
-    //     $service->delete();
+    public function search(Request $request)
+    {
+        $searchTerm = $request->input('search_service');
 
-    //     return redirect()->route('services.index');
-    // }
+        $services = DB::table('services')
+            ->where(function ($query) use ($searchTerm) {
+                $query->where('service_code', 'like', '%'.$searchTerm.'%')
+                    ->orWhere('service_name', 'like', '%'.$searchTerm.'%')
+                    ->orWhere('description', 'like', '%'.$searchTerm.'%');
+            })->paginate(9);
+            return view('layout.service', ['services' => $services, 'searchTerm'=>$searchTerm]);
+    }
+
+    public function filter(Request $request)
+    {
+        $filter_status = $request->input('filter_status');
+
+        $services = DB::table('services')
+        ->when($filter_status, function ($query, $filter_status) {
+            return $query->where('status', $filter_status);
+        })
+        ->paginate(9);
+        return view('layout.service', ['services' => $services]);
+
+    }
 }

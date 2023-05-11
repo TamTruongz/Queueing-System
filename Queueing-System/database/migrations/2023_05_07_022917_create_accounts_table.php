@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->string('password');
             $table->string('email')->unique();
-            $table->string('role')->default('admin');
-            $table->boolean('status')->default(true);
+            $table->string('role');
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->string('avatar')->nullable();
             $table->rememberToken();
             $table->timestamps();
