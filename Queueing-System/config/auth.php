@@ -65,11 +65,6 @@ return [
             'model' => App\Models\Account::class,
             'table' => 'accounts',
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*

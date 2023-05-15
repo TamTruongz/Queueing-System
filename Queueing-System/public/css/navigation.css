@@ -26,13 +26,14 @@ header {
 
 .navbar-heading span {
     padding-top: 2px;
+    font-size: 20px;
+    line-height: 30px;
+    font-weight: 700;
+    color: #7E7D88;
 }
 
 .active-text-heading-navbar {
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 30px;
-    color: #FF7506;
+    color: #FF7506 !important;
 }
 
 .icon-notification {
@@ -191,9 +192,9 @@ header {
     justify-content: center;
 }
 
-.logo-menubar svg {
+.logo-menubar img {
     width: 80px;
-
+    margin: 35px 0 37px 0;
 }
 
 .menubar-ul {
@@ -212,6 +213,8 @@ header {
     display: flex;
     align-items: center;
     margin-left: 15px;
+    width: 100%;
+    height: 100%;
 }
 
 .menubar-item a p {
@@ -231,6 +234,7 @@ header {
 .menubar-item:hover a p {
     color: #FF9138;
 }
+
 .button-logout {
     margin-top: 230px;
     border: none;
@@ -245,11 +249,12 @@ header {
 
 .menubar-setting-system {
     align-items: center;
+    cursor: pointer;
 }
 
 .bx-dots-vertical-rounded {
     color: #A9A9B0;
-    margin-left: 13px;
+    margin-right: 8px;
 }
 
 /* == Menu Setting System == */
@@ -295,10 +300,19 @@ header {
     background-color: #FFF2E7;
 }
 
-
 .button-logout {
     color: #FF9138;
     font-size: 16px;
     font-weight: 600;
     line-height: 24px;
+}
+
+/* active */
+.active-menubar {
+    background-color: #FF7506;
+    color: #fff;
+}
+
+.active-menubar a p {
+    color: #fff;
 }

@@ -24,6 +24,10 @@
     <!-- ===== IconBox ===== -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
     <!-- ===== Css ===== -->
     <link rel="stylesheet" href="/css/general.css">
     <link rel="stylesheet" href="/css/navigation.css">
@@ -33,11 +37,12 @@
     <link rel="stylesheet" href="/css/codes.css">
     <link rel="stylesheet" href="/css/report.css">
     <link rel="stylesheet" href="/css/role.css">
-    <link rel="stylesheet" href="/css/user.css">
+    <link rel="stylesheet" href="/css/info.css">
+    <link rel="stylesheet" href="/css/style.css">
 
 </head>
 
-<body>
+<body class="{{ (Auth::check()) ? '' : 'bgcolor-body-page'}}">
     <!-- ==== Header ===== -->
     @include('common.header')
     <!-- ==== End Header ==== -->
@@ -54,7 +59,8 @@
     @include('common.popup_message')
     <!-- ==== End Popup Message ==== -->
 </body>
-<script src="js/general.js"></script>
-<script src="js/PopupMessage.js"></script>
+
+<script src="/js/general.js"></script>
+<script src="/js/PopupMessage.js"></script>
 
 </html>

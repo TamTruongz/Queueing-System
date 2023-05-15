@@ -24,7 +24,7 @@
 
 
             <div class="area-button-codenew">
-                <a href="/codes"><button class="btn-codenew-abort">Hủy bỏ</button></a>
+                <a href="{{ route('ticket') }}"><button class="btn-codenew-abort">Hủy bỏ</button></a>
                 <!-- Popup Button -->
                 <button type="submit" form="form-add-ticket" class="btn-codenew-inso" data-bs-toggle="modal"
                     data-bs-target="#staticBackdrop">In
@@ -68,27 +68,4 @@
         </div>
     </div>
 </main>
-
-<script>
-$(document).ready(function() {
-    $('#form-add-ticket').submit(function(event) {
-        event.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: $(this).attr('action'),
-            data: $(this).serialize(),
-            success: function(response) {
-                var latestTicket = response.latestTicket;
-                $('#ticket-service_name').text(latestTicket.service_name);
-                $('#ticket-sequence_number').text(latestTicket.sequence_number);
-                // $('#ticket-issued_at').text(latestTicket.issued_at);
-                // $('#ticket-expired_at').text(latestTicket.expired_at);
-                $('#ticket-issued_at').text(moment(latestTicket.issued_at).format('HH:mm DD/MM/YYYY'));
-                $('#ticket-expired_at').text(moment(latestTicket.expired_at).format('HH:mm DD/MM/YYYY'));
-                $('#staticBackdrop').modal('show');
-            }
-        });
-    });
-});
-</script>
 @endsection

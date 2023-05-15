@@ -31,7 +31,7 @@
                                 </label>
 
                                 <input name="service_code" type="text" placeholder="Nhập mã thiết bị"
-                                    value="{{ isset($service->service_code) ? $service->service_code : '' }}">
+                                    value="{{ isset($service->service_code) ? $service->service_code : '' }}" class="form-control @error('service_code') is-invalid @enderror">
 
                             </div>
                             <div class="item-form-add-device">
@@ -46,7 +46,7 @@
                                     @endif
                                 </label>
                                 <input name="service_name" type="text" placeholder="Nhập tên dịch vụ"
-                                    value="{{ isset($service->service_name) ? $service->service_name : '' }}">
+                                    value="{{ isset($service->service_name) ? $service->service_name : '' }}" class="form-control @error('service_name') is-invalid @enderror">
 
                             </div>
                         </div>
@@ -140,17 +140,4 @@
         </div>
     </div>
 </main>
-<script>
-const checkboxes = document.querySelectorAll('.checkbox-service');
-
-checkboxes.forEach(function(checkbox) {
-    checkbox.onclick = function() {
-        if (checkbox.checked) {
-            checkbox.value = 1;
-        } else {
-            checkbox.value = 0;
-        }
-    }
-});
-</script>
 @endsection

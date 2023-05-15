@@ -30,7 +30,7 @@
                                 @endif
                             </label>
                             <input name="name" type="text" placeholder="Nhập tên vai trò"
-                                value="{{ isset($role->name) ? $role->name : '' }}">
+                                value="{{ isset($role->name) ? $role->name : '' }}" class="form-control @error('name') is-invalid @enderror">
                         </div>
                         <div class="item-form-add-role">
                             <label for="description">Mô tả:
@@ -107,24 +107,4 @@
         </div>
     </div>
 </main>
-<script>
-function checkAll(checkbox) {
-    var checkboxes = document.getElementsByName("permissions[]");
-    for (var i = 0; i < checkboxes.length; i++) {
-        if (checkboxes[i].value != "all") {
-            checkboxes[i].checked = checkbox.checked;
-            checkboxes[i].disabled = checkbox.checked;
-        }
-    }
-}
-
-function uncheckAll(checkbox) {
-    var checkboxes = document.getElementsByName("permissions[]");
-    for (var i = 0; i < checkboxes.length; i++) {
-        if (checkboxes[i].value == "all") {
-            checkboxes[i].checked = false;
-        }
-    }
-}
-</script>
 @endsection

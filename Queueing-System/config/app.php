@@ -165,10 +165,11 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+       
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+        ConsoleTVs\Charts\ChartsServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -184,6 +185,6 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
-        'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
+        'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
     ])->toArray(),
 ];

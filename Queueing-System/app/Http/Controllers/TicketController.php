@@ -12,27 +12,32 @@ use Illuminate\Support\Facades\DB;
 
 class TicketController extends Controller
 {
+    public function __construct()
+    {
+    $this->middleware('log_account_actions')->only(['store']);
+    }
+
     public function ticket()
     {
         $service = Service::all();
-        $tickets = DB::table('tickets')->paginate(9);
+        $tickets = Ticket::latest()->paginate(9);
         if ($tickets->total() > $tickets->perPage()) {
-            return view('layout.codes', ['tickets' => $tickets, 'services' => $service]);
+            return view('layout.ticket.manager', ['tickets' => $tickets, 'services' => $service]);
         } else {
-            return view('layout.codes', ['tickets' => $tickets,'services' => $service, 'hidePagination' => true]);
+            return view('layout.ticket.manager', ['tickets' => $tickets,'services' => $service, 'hidePagination' => true]);
         }
     }
     public function create()
     {
         $service = Service::all();
-        return view('layout.codes_new',['service' => $service]);
+        return view('layout.ticket.create',['service' => $service]);
     }
 
     public function store(Request $request)
     {
         $user = Auth::user();
         $ticket = new Ticket();
-        $ticket->name = $user->username;
+        $ticket->name = $user->name;
         $ticket->service_name = $request->input('service_name');
         $ticket->sequence_number = Ticket::max('sequence_number') + 1;
         $ticket->issued_at = Carbon::now()->format('Y-m-d H:i:s');
@@ -42,19 +47,22 @@ class TicketController extends Controller
         $ticket->phone = $user->phone;
         $ticket->email =$user->email;
 
+        $this->middleware('log_account_actions');
+        
         $ticket->save();
         $service = Service::all();
         $latestTicket = Ticket::latest()->first();
         return response()->json([
             'latestTicket' => $latestTicket,
         ]);
-        return view('layout.codes_new', ['service' => $service]);
+        return view('layout.ticket.create', ['service' => $service]);
+        
     }
 
     public function info($id)
     {
         $tickets = Ticket::findOrFail($id);
-        return view('layout.info_codes', compact('tickets'));
+        return view('layout.ticket.info', compact('tickets'));
     }
 
     public function search(Request $request)
@@ -70,7 +78,7 @@ class TicketController extends Controller
             })->paginate(9);
             
             $request->session()->put('searchTerm', $searchTerm);
-            return view('layout.codes', ['tickets' => $tickets, 'services' => $services, 'searchTerm' =>$searchTerm]);
+            return view('layout.ticket.manager', ['tickets' => $tickets, 'services' => $services, 'searchTerm' =>$searchTerm]);
     }
 
     public function filter(Request $request)
@@ -93,7 +101,7 @@ class TicketController extends Controller
             return $query->where('source', $filter_source);
         })
         ->paginate(9);
-        return view('layout.codes', ['tickets' => $tickets, 'services' => $services]);
+        return view('layout.ticket.manager', ['tickets' => $tickets, 'services' => $services]);
 
     }
 }

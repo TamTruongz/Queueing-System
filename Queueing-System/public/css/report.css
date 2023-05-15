@@ -49,3 +49,22 @@
     width: 20px;
     height: 20px;
 }
+/* icon-search */
+.bx-search-alt {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    color: #fff;
+}
+.bx-search-alt:hover {
+    color: #454545;
+    transition: 0.5s;
+}
+.btn-filter-search {
+    position: absolute;
+    right: 0;
+    margin-right: -17px;
+    margin-top: 4px;
+}

@@ -12,17 +12,21 @@ use Illuminate\Support\Facades\DB;
 
 class AccountController extends Controller
 {
-    // ===== REGISTER =================================================
-    public function register()
+    public function __construct(public Account $account)
     {
-        $roles = Role::all();
-        return view('layout.register',['roles' => $roles]);
+        $this->middleware('log_account_actions')->only(['store', 'update']);
     }
+    // ===== REGISTER =================================================
+    // public function register()
+    // {
+    //     $roles = Role::all();
+    //     return view('layout.register',['roles' => $roles]);
+    // }
 
     public function create()
     {
         $roles = Role::all();
-        return view('layout.add_account',['roles' => $roles]);
+        return view('layout.account.create',['roles' => $roles]);
     }
 
     public function store(Request $request)
@@ -73,6 +77,7 @@ class AccountController extends Controller
         $role->save();
 
         try {
+            $this->middleware('log_account_actions');
             $account->save();
             return redirect()->route('account')->with('success', 'Thêm tài khoản thành công !');
         } catch (\Exception $e) {
@@ -84,7 +89,6 @@ class AccountController extends Controller
     // ===== LOGIN =================================================
     public function login(Request $request)
     {
-
         if ($request->isMethod('POST')) {
             $data = $request->validate(
                 [
@@ -103,22 +107,11 @@ class AccountController extends Controller
                 return redirect()->route('dashboard')->with('success', 'Đăng nhập thành công!');
             }
 
-            return back()->withErrors(['error' => 'Tên đăng nhập hoặc mật khẩu sai !']);
+            return back()->withErrors(['login' => 'Tên đăng nhập hoặc mật khẩu sai !']);
         }
-        return view('layout.login');
+        return view('layout.account.login');
     }
-    // ===== RESET PASSWORD =================================================
 
-    public function reset_password()
-    {
-        return view('layout.reset_password');
-    }
-    // ===== FORGET PASSWORD =================================================
-
-    public function forget_password()
-    {
-        return view('layout.forget_password');
-    }
 
     // ===== LOGOUT =================================================
     public function logout(Request $request)
@@ -133,7 +126,7 @@ class AccountController extends Controller
     }
 
     // ===== INFOMATION ACCOUNT =================================================
-    public function user_info()
+    public function info()
     {
         $user = Auth::user();
 
@@ -145,17 +138,15 @@ class AccountController extends Controller
         $role = $user->role;
         $avatar = $user->avatar;
 
-        // Trả về view với dữ liệu người dùng đã lấy được
-        return view('layout.user_info', ['name' => $name, 'username' => $username, 'numberphone' => $numberphone, 'email' => $email, 'password' => $password, 'role' => $role, 'avatar' => $avatar]);
+        return view('layout.account.info', ['name' => $name, 'username' => $username, 'numberphone' => $numberphone, 'email' => $email, 'password' => $password, 'role' => $role, 'avatar' => $avatar]);
     }
 
     public function account () {
-        $accounts = DB::table('accounts')->paginate(9);
-
+        $accounts = Account::latest()->paginate(9);
         if ($accounts->total() > $accounts->perPage()) {
-            return view('layout.account', ['accounts' => $accounts]);
+            return view('layout.account.manager', ['accounts' => $accounts]);
         } else {
-            return view('layout.account', ['accounts' => $accounts, 'hidePagination' => true]);
+            return view('layout.account.manager', ['accounts' => $accounts, 'hidePagination' => true]);
         }
     }
 
@@ -163,49 +154,66 @@ class AccountController extends Controller
     {
         $roles = Role::all();
         $account = Account::findOrFail($id);
-        return view('layout.add_account', compact('account'), ['roles' => $roles]);
+        return view('layout.account.create', compact('account'), ['roles' => $roles]);
     }
 
     public function update(Request $request, $id)
     {
+    
 
-        $request->validate([
-            'name' => 'required|string|max:100|min:3',
-            'username' => 'required|string|max:100|min:3',
-            'phone' => 'required|max:20|min:3',
-            'password' => 'nullable|string|min:6|confirmed',
-            'email' => 'required|string|email',
-            'role' => 'required',
-            'status' => 'nullable'
-        ], 
-        [
-            'name.required' => 'Vui lòng nhập họ và tên !',
-            'username.required' => 'Vui lòng nhập tên đăng nhập !',
-            'phone.required' => 'Vui lòng nhập số điện thoại !',
+    $request->validate([
+        'name' => 'required|string|max:255|min:3',
+        'username' => 'required|string|max:255|min:3',
+        'phone' => 'required|max:255|min:3',
+        'password' => 'nullable|string|min:6|confirmed',
+        'email' => 'required|string|email',
+        'role' => 'required',
+        'status' => 'nullable'
+    ], 
+    [
+        'name.required' => 'Vui lòng nhập họ và tên !',
+        'username.required' => 'Vui lòng nhập tên đăng nhập !',
+        'phone.required' => 'Vui lòng nhập số điện thoại !',
+        'email.required' => 'Vui lòng nhập email !',
 
-            'password.required' => 'Vui lòng nhập mật khẩu !',
-            'email.required' => 'Vui lòng nhập email !',
+        'name.max:255' => 'Họ và tên quá dài !',
+        'name.min:3' => 'Họ và tên quá ngắn !',
+        'username.max:255' => 'Tên đăng nhập quá dài !',
+        'username.min:3' => 'Tên đăng nhập quá ngắn !',
+        'email.email' => 'Email sai !',
+    ]);
+    $account = Account::findOrFail($id);
+    $oldRole = $account->role;
+    $newRole = $request->get('role');
 
-            'name.max:100' => 'Họ và tên quá dài !',
-            'name.min:3' => 'Họ và tên quá ngắn !',
-            'username.max:20' => 'Tên đăng nhập quá dài !',
-            'username.min:3' => 'Tên đăng nhập quá ngắn !',
+    if ($oldRole != $newRole) {
+        $oldRoleObj = Role::where('name', $oldRole)->first();
+        $oldRoleObj->count -= 1;
+        $oldRoleObj->save();
 
-            'password.min:6' => 'Mật khẩu quá ngắn !',
-            'password.confirmed' => 'Nhập lại mật khẩu không khớp !',
-
-            'email.email' => 'Email sai !',
-
-        ]);
-  
-        try {
-            $accounts = Account::findOrFail($id);
-            $accounts->update($request->all());
-            return redirect()->route('/account', $accounts)->with('success', 'Cập nhật tài khoản thành công!');
-        } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => 'Cập nhật tài khoản thất bại!']);
-        }
+        $newRoleObj = Role::where('name', $newRole)->first();
+        $newRoleObj->count += 1;
+        $newRoleObj->save();
     }
+
+    $account->name = $request->get('name');
+    $account->username = $request->get('username');
+    $account->phone = $request->get('phone');
+    if ($request->filled('password')) {
+        $account->password = $request->input('password');
+    }
+    $account->email = $request->get('email');
+    $account->role = $request->get('role');
+    $account->status = $request->get('status');
+
+    try {
+        $this->middleware('log_account_actions');
+        $account->save();
+        return redirect('/account')->with('success', 'Cập nhật tài khoản thành công!');
+    } catch (\Exception $e) {
+        return redirect()->back()->withErrors(['error' => 'Cập nhật tài khoản thất bại!']);
+    }
+}
 
     public function search(Request $request)
     {
@@ -219,7 +227,7 @@ class AccountController extends Controller
                     ->orWhere('email', 'like', '%'.$searchTerm.'%')
                     ->orWhere('role', 'like', '%'.$searchTerm.'%');
             })->paginate(9);
-            return view('layout.account', ['accounts' => $accounts, 'searchTerm' => $searchTerm,]);
+            return view('layout.account.manager', ['accounts' => $accounts, 'searchTerm' => $searchTerm,]);
     }
 
     public function filter(Request $request)
@@ -230,7 +238,7 @@ class AccountController extends Controller
             return $query->where('status', $filter_status);
         })
         ->paginate(9);
-        return view('layout.account', ['accounts' => $accounts]);
+        return view('layout.account.manager', ['accounts' => $accounts]);
 
     }
 }

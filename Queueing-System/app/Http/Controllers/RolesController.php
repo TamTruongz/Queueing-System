@@ -8,20 +8,25 @@ use Illuminate\Support\Facades\DB;
 
 class RolesController extends Controller
 {
+    public function __construct()
+    {
+    $this->middleware('log_account_actions')->only(['store', 'update']);
+    }
+
     public function role()
     {
         $roles = DB::table('roles')->paginate(9);
 
         if ($roles->total() > $roles->perPage()) {
-            return view('layout.role', ['roles' => $roles]);
+            return view('layout.role.manager', ['roles' => $roles]);
         } else {
-            return view('layout.role', ['roles' => $roles, 'hidePagination' => true]);
+            return view('layout.role.manager', ['roles' => $roles, 'hidePagination' => true]);
         }
     }
 
     public function create()
     {
-        return view('layout.add_role');
+        return view('layout.role.create');
     }
 
     public function store(Request $request)
@@ -42,16 +47,20 @@ class RolesController extends Controller
         $role->name = $validatedData['name'];
         $role->description = $validatedData['description'];
         $role->permissions = json_encode($request->input('permissions'));
-
-        $role->save();
-
-        return redirect()->route('role')->with('success', 'Vai trò đã được tạo thành công!');
+        try {
+            $this->middleware('log_account_actions');
+            $role->save();
+            return redirect()->route('role')->with('success', 'Vai trò đã được tạo thành công!');
+        }
+        catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Thêm vai trò thất bại']);
+        }
     }
 
     public function edit($id)
     {
         $role = Role::findOrFail($id);
-        return view('layout.add_role', compact('role'));
+        return view('layout.role.create', compact('role'));
     }
 
     public function update(Request $request, $id)
@@ -72,10 +81,16 @@ class RolesController extends Controller
         $role->name = $validatedData['name'];
         $role->description = $validatedData['description'];
         $role->permissions = json_encode($request->input('permissions'));
+        try {
+            $this->middleware('log_account_actions');
+            $role->save();
+            return redirect()->route('role')->with('success', 'Vai trò đã được cập nhật thành công!');
+        }
+        catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Cập nhật vai trò thất bại']);
+        }
+        
 
-        $role->save();
-
-        return redirect()->route('role')->with('success', 'Vai trò đã được cập nhật thành công!');
     }
 
     public function search(Request $request)
@@ -88,6 +103,6 @@ class RolesController extends Controller
                     ->orWhere('count', 'like', '%'.$searchTerm.'%')
                     ->orWhere('description', 'like', '%'.$searchTerm.'%');
             })->paginate(9);
-            return view('layout.role', ['roles' => $roles, 'searchTerm'=>$searchTerm]);
+            return view('layout.role.manager', ['roles' => $roles, 'searchTerm'=>$searchTerm]);
     }
 }

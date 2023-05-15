@@ -5,30 +5,34 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Device;
-
-
 class DeviceController extends Controller
 {
+    public function __construct()
+    {
+    $this->middleware('log_account_actions')->only(['store', 'update']);
+    }
+   
     public function device()
     {
-        $devices = DB::table('devices')->paginate(9);
+         $devices = Device::latest()->paginate(9);
         if ($devices->total() > $devices->perPage()) {
-            return view('layout.device', ['devices' => $devices]);
+            return view('layout.device.manager', ['devices' => $devices]);
         } else {
-            return view('layout.device', ['devices' => $devices, 'hidePagination' => true]);
+            return view('layout.device.manager', ['devices' => $devices, 'hidePagination' => true]);
         }
     }
+    
 
     public function create()
     {
-        return view('layout.add_device');
+        return view('layout.device.create');
     }
 
     public function store(Request $request)
     {
 
         $request->validate([
-            'device_id' => 'required|max:255',
+            'device_id' => 'required|max:255|unique:devices',
             'name' => 'required|max:255',
             'username' => 'required|max:255',
             'device_type' => 'required',
@@ -39,31 +43,39 @@ class DeviceController extends Controller
         [
             'device_id.required' => 'Vui lòng nhập mã thiết bị !',
             'device_id.max:255' => 'Mã thiết bị quá dài !',
+            'device_id.unique' => 'Mã thiết bị tồn tại !',
+
             'name.required' => 'Vui lòng nhập tên thiết bị !',
             'name.max:255' => 'Tên thiết bị quá dài !',
+
             'username.max:255' => 'Tên đăng nhập quá dài',
             'username.required' => 'Vui lòng nhập đăng nhập !',
+
             'device_type.required' => 'Vui lòng chọn loại thiết bị !',
+
             'address.required' => 'Vui lòng nhập địa chỉ IP !',
             'address.max:255' => 'Địa chỉ quá dài !',
+
             'service_use.required' => 'Vui lòng nhập dịch vụ sử dụng !',
             'service_use.max:255' => 'Nội dung quá dài !',
+            
             'password' => 'Vui lòng nhập mật khẩu !',
             'password.max:255' => 'Vui lòng nhập mật khẩu !',
         ]);
 
         try {
+            $this->middleware('log_account_actions');
             $device = Device::create($request->all());
-            return redirect()->route('device', $device)->with('success', 'Thêm thiết bị thành công !');
+            return redirect('/device')->with('success', 'Thêm thiết bị thành công !');
         } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error', 'Thêm thiết bị thất bại !']);
+            return redirect()->back()->withErrors(['error' => 'Thêm thiết bị thất bại !']);
         }
     }
 
     public function edit($id)
     {
         $device = Device::findOrFail($id);
-        return view('layout.update_device', compact('device'));
+        return view('layout.device.update', compact('device'));
     }
 
     public function update(Request $request, $id)
@@ -102,6 +114,7 @@ class DeviceController extends Controller
         $device->password = $request->get('password');
         $device->service_use = $request->get('service_use');
         try {
+            $this->middleware('log_account_actions');
             $device->save();
             return redirect('/device')->with('success', 'Cập nhật thiết bị thành công !');
         } catch (\Exception $e) {
@@ -113,7 +126,7 @@ class DeviceController extends Controller
     public function info($id)
     {
         $device = Device::findOrFail($id);
-        return view('layout.info_device', compact('device'));
+        return view('layout.device.info', compact('device'));
     }
 
     public function search(Request $request)
@@ -127,7 +140,7 @@ class DeviceController extends Controller
                     ->orWhere('address', 'like', '%'.$searchTerm.'%')
                     ->orWhere('service_use', 'like', '%'.$searchTerm.'%');
             })->paginate(9);
-            return view('layout.device', ['devices' => $devices, 'searchTerm'=>$searchTerm]);
+            return view('layout.device.manager', ['devices' => $devices, 'searchTerm'=>$searchTerm]);
     }
 
     public function filter(Request $request)
@@ -144,7 +157,7 @@ class DeviceController extends Controller
             return $query->where('connect_status', $filter_connect);
         })
         ->paginate(9);
-        return view('layout.device', ['devices' => $devices]);
+        return view('layout.device.manager', ['devices' => $devices]);
 
     }
 }

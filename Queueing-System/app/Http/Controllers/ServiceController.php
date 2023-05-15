@@ -10,19 +10,25 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class ServiceController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('log_account_actions')->only(['store', 'update']);
+    }
+    
     public function service()
     {
-        $services = DB::table('services')->paginate(9);
+        $services = Service::latest()->paginate(9);
         if ($services->total() > $services->perPage()) {
-            return view('layout.service', ['services' => $services]);
+            return view('layout.service.manager', ['services' => $services]);
         } else {
-            return view('layout.service', ['services' => $services, 'hidePagination' => true]);
+            return view('layout.service.manager', ['services' => $services, 'hidePagination' => true]);
         }
     }
 
     public function create()
     {
-        return view('layout.add_service');
+        return view('layout.service.create');
     }
 
     public function store(Request $request)
@@ -45,6 +51,7 @@ class ServiceController extends Controller
         ]);
 
         try {
+            $this->middleware('log_account_actions');
             $service = Service::create($request->all());
             return redirect()->route('service', $service)->with('success', 'Thêm dịch vụ thành công!');
         } catch (\Exception $e) {
@@ -55,7 +62,7 @@ class ServiceController extends Controller
     public function edit($id)
     {
         $service = Service::findOrFail($id);
-        return view('layout.add_service', compact('service'));
+        return view('layout.service.create', compact('service'));
     }
 
     public function update(Request $request, $id)
@@ -77,14 +84,21 @@ class ServiceController extends Controller
         $data['reset_daily'] = $request->has('reset_daily') ? true : false;
 
         $service = Service::findOrFail($id);
-        $service->update($data);
-        return redirect()->route('service', $service)->with('success', 'Cập nhật dịch vụ thành công!');
+        try {
+            $this->middleware('log_account_actions');
+            $service->update($data);
+            return redirect()->route('service', $service)->with('success', 'Cập nhật dịch vụ thành công!');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Cập nhật dịch vụ thất bại!']);
+        }
+        
+       
     }
 
     public function info($id)
     {
         $service = Service::findOrFail($id);
-        return view('layout.info_service', compact('service'));
+        return view('layout.service.info', compact('service'));
     }
 
     public function search(Request $request)
@@ -97,7 +111,7 @@ class ServiceController extends Controller
                     ->orWhere('service_name', 'like', '%'.$searchTerm.'%')
                     ->orWhere('description', 'like', '%'.$searchTerm.'%');
             })->paginate(9);
-            return view('layout.service', ['services' => $services, 'searchTerm'=>$searchTerm]);
+            return view('layout.service.manager', ['services' => $services, 'searchTerm'=>$searchTerm]);
     }
 
     public function filter(Request $request)
@@ -109,7 +123,7 @@ class ServiceController extends Controller
             return $query->where('status', $filter_status);
         })
         ->paginate(9);
-        return view('layout.service', ['services' => $services]);
+        return view('layout.service.manager', ['services' => $services]);
 
     }
 }

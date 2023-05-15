@@ -8,6 +8,9 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RolesController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LogAccountController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,24 +30,24 @@ Route::get('/login', [AccountController::class, 'login'])->name('login');
 Route::post('/login', [AccountController::class, 'login']);
 
 // ==== Forget - Reset ====
-Route::get('/forget_password', [AccountController::class, 'forget_password'])->name('forget_password');
-Route::get('/reset_password', [AccountController::class, 'reset_password']);
+Route::get('/forget_password', [ForgotPasswordController::class, 'ForgetPassword'])->name('password.forget');
+Route::post('/forget_password', [ForgotPasswordController::class, 'VerifyEmail'])->name('password.email');
+Route::get('/reset_password', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::put('/reset_password', [ForgotPasswordController::class, 'UpdatePassword'])->name('password.update');
+
 Route::post('/logout', [AccountController::class, 'logout'])->name('logout');
 
-// ==== Register Router ====
-Route::get('/register', [AccountController::class, 'register'])->name('register');
-Route::post('/register', [AccountController::class, 'store'])->name('register.store');
+// // ==== Register Router ====
+// Route::get('/register', [AccountController::class, 'register'])->name('register');
+// Route::post('/register', [AccountController::class, 'store'])->name('register.store');
 
 
 // Đăng nhập vào trang
 Route::middleware(['auth'])->group(function () {
-    // ==== Infomation Account Router ====
-    Route::get('/user_info', [AccountController::class, 'user_info'])->name('user_info');
-
-    // ==== Dashboard Router ====
-    // ===== Default routes =====
-    Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
-    Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+    
+    // ==== Dashboard Router (Default routes) ====
+    Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     // ==== Device Router ====
     Route::get('/device', [DeviceController::class, 'device'])->name('device'); // == Quản lý
     Route::get('/device/create', [DeviceController::class, 'create'])->name('device.create'); // == Thêm
@@ -74,15 +77,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/service/filter', [ServiceController::class, 'filter'])->name('service.filter'); // == lọc
 
     // ==== Cấp số Router ====
-    Route::get('/codes', [TicketController::class, 'ticket'])->name('ticket');
+    Route::get('/ticket', [TicketController::class, 'ticket'])->name('ticket');
 
-    Route::get('/codes/create', [TicketController::class, 'create'])->name('ticket.create');
-    Route::post('/codes/create', [TicketController::class, 'store'])->name('ticket.store');
-    Route::get('/codes/info/{id}', [TicketController::class, 'info'])->name('ticket.info');
+    Route::get('/ticket/create', [TicketController::class, 'create'])->name('ticket.create');
+    Route::post('/ticket/create', [TicketController::class, 'store'])->name('ticket.store');
+    Route::get('/ticket/info/{id}', [TicketController::class, 'info'])->name('ticket.info');
 
-    Route::get('/codes/search', [TicketController::class, 'search'])->name('ticket.search'); // == Tìm kiếm
+    Route::get('/ticket/search', [TicketController::class, 'search'])->name('ticket.search'); // == Tìm kiếm
 
-    Route::get('/codes/filter', [TicketController::class, 'filter'])->name('ticket.filter'); // == lọc
+    Route::get('/ticket/filter', [TicketController::class, 'filter'])->name('ticket.filter'); // == lọc
 
     // ==== Báo cáo Router ====
     Route::get('/report', [ReportController::class, 'report'])->name('report');
@@ -106,10 +109,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/account/edit/{id}', [AccountController::class, 'edit'])->name('account.edit');
     Route::put('/account/update/{id}', [AccountController::class, 'update'])->name('account.update');
 
+    Route::get('/account/info', [AccountController::class, 'info'])->name('account.info');
+
     Route::get('/account/search', [AccountController::class, 'search'])->name('account.search'); // == Tìm kiếm
 
     Route::get('/account/filter', [AccountController::class, 'filter'])->name('account.filter'); // == lọc
 
     // ==== Nhật ký tài khoản Router ====
-    Route::get('/logs_user', [HomeController::class, 'logs_user']);
+    Route::get('/logs_account', [LogAccountController::class, 'index'])->name('logs');
+    Route::get('/logs_account/search', [LogAccountController::class, 'search'])->name('logs.search');
 });
