@@ -15,18 +15,32 @@ class RolesController extends Controller
 
     public function role()
     {
-        $roles = DB::table('roles')->paginate(9);
+        $user = auth()->user();
+        $role = Role::where('name', $user->role)->first();
+        if ($role && ($role->hasPermission('manager_account') || $role->hasPermission('all'))) {
+            $roles = DB::table('roles')->paginate(9);
 
         if ($roles->total() > $roles->perPage()) {
             return view('layout.role.manager', ['roles' => $roles]);
         } else {
             return view('layout.role.manager', ['roles' => $roles, 'hidePagination' => true]);
         }
+        } else {
+            return redirect()->back()->with('success', 'Bạn không có quyền truy cập!');
+        }
+        
     }
 
     public function create()
     {
-        return view('layout.role.create');
+        $user = auth()->user();
+        $role = Role::where('name', $user->role)->first();
+        if ($role && ($role->hasPermission('manager_account') || $role->hasPermission('all'))) {
+            return view('layout.role.create');
+        } else {
+            return redirect()->back()->with('success', 'Bạn không có quyền truy cập!');
+        }
+       
     }
 
     public function store(Request $request)
@@ -59,8 +73,15 @@ class RolesController extends Controller
 
     public function edit($id)
     {
-        $role = Role::findOrFail($id);
-        return view('layout.role.create', compact('role'));
+        $user = auth()->user();
+        $role = Role::where('name', $user->role)->first();
+        if ($role && ($role->hasPermission('manager_account') || $role->hasPermission('all'))) {
+            $role = Role::findOrFail($id);
+            return view('layout.role.create', compact('role'));
+        } else {
+            return redirect()->back()->with('success', 'Bạn không có quyền truy cập!');
+        }
+        
     }
 
     public function update(Request $request, $id)
@@ -68,7 +89,7 @@ class RolesController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'description' => 'nullable',
-            'permissions' => 'nullable|array',
+            'permissions' => 'required|array',
         ],
         [
             'name.required' => 'Vui lòng nhập tên vai trò.',

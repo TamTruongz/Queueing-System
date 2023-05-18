@@ -11,7 +11,14 @@ class Role extends Model
     protected $fillable = ['name', 'description', 'permissions'];
 
     public function accounts()
-{
-    return $this->hasMany(Account::class, 'role', 'name');
-}
+    {
+        return $this->hasMany(Account::class, 'role', 'name');
+    }
+
+    public function hasPermission($permission)
+    {
+        $permissions = json_decode($this->permissions, true);
+        return in_array($permission, $permissions) || in_array('all', $permissions);
+    }
+
 }

@@ -37,10 +37,6 @@ Route::put('/reset_password', [ForgotPasswordController::class, 'UpdatePassword'
 
 Route::post('/logout', [AccountController::class, 'logout'])->name('logout');
 
-// // ==== Register Router ====
-// Route::get('/register', [AccountController::class, 'register'])->name('register');
-// Route::post('/register', [AccountController::class, 'store'])->name('register.store');
-
 
 // Đăng nhập vào trang
 Route::middleware(['auth'])->group(function () {
@@ -71,6 +67,8 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/service/update/{id}', [ServiceController::class, 'update'])->name('service.update');
 
     Route::get('/service/info/{id}', [ServiceController::class, 'info'])->name('service.info');
+    Route::get('/service/searchinfo/{id}', [ServiceController::class, 'searchinfo'])->name('service.searchinfo');
+    Route::get('/service/filterinfo/{id}', [ServiceController::class, 'filterinfo'])->name('service.filterinfo');
 
     Route::get('/service/search', [ServiceController::class, 'search'])->name('service.search'); // == Tìm kiếm
 
@@ -89,6 +87,8 @@ Route::middleware(['auth'])->group(function () {
 
     // ==== Báo cáo Router ====
     Route::get('/report', [ReportController::class, 'report'])->name('report');
+    Route::get('/report/filter', [ReportController::class, 'filter'])->name('report.filter'); // == lọc
+
 
     // ==== Vai trò Router ====
     Route::get('/role', [RolesController::class, 'role'])->name('role');
@@ -118,4 +118,5 @@ Route::middleware(['auth'])->group(function () {
     // ==== Nhật ký tài khoản Router ====
     Route::get('/logs_account', [LogAccountController::class, 'index'])->name('logs');
     Route::get('/logs_account/search', [LogAccountController::class, 'search'])->name('logs.search');
+    Route::get('/logs_account/filter', [LogAccountController::class, 'filter'])->name('logs.filter');
 });

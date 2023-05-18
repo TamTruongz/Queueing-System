@@ -25,8 +25,15 @@ class AccountController extends Controller
 
     public function create()
     {
-        $roles = Role::all();
+        $user = auth()->user();
+        $role = Role::where('name', $user->role)->first();
+        if ($role && ($role->hasPermission('manager_account') || $role->hasPermission('all'))) {
+            $roles = Role::all();
         return view('layout.account.create',['roles' => $roles]);
+        } else {
+            return redirect()->back()->with('success', 'Bạn không có quyền truy cập!');
+        }
+        
     }
 
     public function store(Request $request)
@@ -122,7 +129,7 @@ class AccountController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('login')->with('success', 'Đăng xuất thành công !');
+        return redirect()->route('ticket.create')->with('success', 'Đăng xuất thành công !');
     }
 
     // ===== INFOMATION ACCOUNT =================================================
@@ -142,19 +149,33 @@ class AccountController extends Controller
     }
 
     public function account () {
-        $accounts = Account::latest()->paginate(9);
+        $user = auth()->user();
+        $role = Role::where('name', $user->role)->first();
+        if ($role && ($role->hasPermission('manager_account') || $role->hasPermission('all'))) {
+            $accounts = Account::latest()->paginate(9);
         if ($accounts->total() > $accounts->perPage()) {
             return view('layout.account.manager', ['accounts' => $accounts]);
         } else {
             return view('layout.account.manager', ['accounts' => $accounts, 'hidePagination' => true]);
         }
+        } else {
+            return redirect()->back()->with('success', 'Bạn không có quyền truy cập!');
+        }
+        
     }
 
     public function edit($id)
     {
-        $roles = Role::all();
-        $account = Account::findOrFail($id);
-        return view('layout.account.create', compact('account'), ['roles' => $roles]);
+        $user = auth()->user();
+        $role = Role::where('name', $user->role)->first();
+        if ($role && ($role->hasPermission('manager_account') || $role->hasPermission('all'))) {
+            $roles = Role::all();
+            $account = Account::findOrFail($id);
+            return view('layout.account.create', compact('account'), ['roles' => $roles]);
+        } else {
+            return redirect()->back()->with('success', 'Bạn không có quyền truy cập!');
+        }
+       
     }
 
     public function update(Request $request, $id)

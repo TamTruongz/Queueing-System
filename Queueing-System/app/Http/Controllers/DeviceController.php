@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Device;
+use App\Models\Role;
 class DeviceController extends Controller
 {
     public function __construct()
@@ -25,7 +26,14 @@ class DeviceController extends Controller
 
     public function create()
     {
-        return view('layout.device.create');
+        $user = auth()->user();
+        $role = Role::where('name', $user->role)->first();
+        if ($role && ($role->hasPermission('add') || $role->hasPermission('all'))) {
+            return view('layout.device.create');
+        } else {
+            return redirect()->back()->with('success', 'Bạn không có quyền truy cập!');
+        }
+       
     }
 
     public function store(Request $request)
@@ -74,8 +82,15 @@ class DeviceController extends Controller
 
     public function edit($id)
     {
-        $device = Device::findOrFail($id);
-        return view('layout.device.update', compact('device'));
+        $user = auth()->user();
+        $role = Role::where('name', $user->role)->first();
+        if ($role && ($role->hasPermission('edit') || $role->hasPermission('all'))) {
+            $device = Device::findOrFail($id);
+            return view('layout.device.update', compact('device'));
+        } else {
+            return redirect()->back()->with('success', 'Bạn không có quyền truy cập!');
+        }
+        
     }
 
     public function update(Request $request, $id)

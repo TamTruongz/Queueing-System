@@ -30,7 +30,8 @@
                                 @endif
                             </label>
                             <input name="name" type="text" placeholder="Nhập tên vai trò"
-                                value="{{ isset($role->name) ? $role->name : '' }}" class="form-control @error('name') is-invalid @enderror">
+                                value="{{ isset($role->name) ? $role->name : '' }}"
+                                class="form-control @error('name') is-invalid @enderror">
                         </div>
                         <div class="item-form-add-role">
                             <label for="description">Mô tả:
@@ -75,18 +76,25 @@
                                             {{ isset($role) ? Str::contains($role->permissions, 'all') ? 'checked' : '' : ''}}>
                                         Tất cả
                                     </li>
-                                    <li class="li-item-decentra"><input type="checkbox" name="permissions[]" value="x"
+                                    <li class="li-item-decentra">
+                                        <input type="checkbox" name="permissions[]" value="view"
                                             onchange="uncheckAll(this)"
-                                            {{ isset($role) ? Str::contains($role->permissions, 'x') ? 'checked' : '' : ''}}>
-                                        Chức năng x</li>
-                                    <li class="li-item-decentra"><input type="checkbox" name="permissions[]" value="y"
+                                            {{ isset($role) ? Str::contains($role->permissions, 'view') ? 'checked' : '' : ''}}>
+                                        Chỉ xem
+                                    </li>
+                                    <li class="li-item-decentra"><input type="checkbox" name="permissions[]"
+                                            value="edit" onchange="uncheckAll(this)"
+                                            {{ isset($role) ? Str::contains($role->permissions, 'edit') ? 'checked' : '' : ''}}>
+                                        Chỉ chỉnh sửa</li>
+                                    <li class="li-item-decentra"><input type="checkbox" name="permissions[]" value="add"
                                             onchange="uncheckAll(this)"
-                                            {{ isset($role) ? Str::contains($role->permissions, 'y') ? 'checked' : '' : ''}}>
-                                        Chức năng y</li>
-                                    <li class="li-item-decentra"><input type="checkbox" name="permissions[]" value="z"
-                                            onchange="uncheckAll(this)"
-                                            {{ isset($role) ? Str::contains($role->permissions, 'z') ? 'checked' : '' : ''}}>
-                                        Chức năng z</li>
+                                            {{ isset($role) ? Str::contains($role->permissions, 'add') ? 'checked' : '' : ''}}>
+                                        Chỉ thêm dữ liệu</li>
+                                    <li class="li-item-decentra">
+                                        <input type="checkbox" name="permissions[]" value="manager_account"
+                                            {{ isset($role) ? Str::contains($role->permissions, 'manager_account') ? 'checked' : '' : ''}}>
+                                        Quản lí tài khoản
+                                    </li>
                                 </ul>
                             </div>
                         </div>

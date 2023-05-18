@@ -144,6 +144,13 @@ table tbody tr:nth-of-type(even) {
 
 
 /* ===== Phân trang ===== */
+.area-pagination-page-info-service {
+    display: inline-block;
+    position: fixed;
+    bottom: 10px;
+    right: 220px;
+}
+
 .area-pagination-page {
     display: inline-block;
     height: 32px;
@@ -157,7 +164,7 @@ table tbody tr:nth-of-type(even) {
     display: flex;
 }
 
-.pagination-page li {
+.pagination-page a li {
     width: 32px;
     height: 32px;
     border-radius: 8px;
@@ -166,23 +173,20 @@ table tbody tr:nth-of-type(even) {
     justify-content: center;
 }
 
-.pagination-page li a {
+.pagination-page a li {
     font-weight: 700;
     font-size: 16px;
     line-height: 22px;
     color: #7E7D88;
 }
 
-.pagination-page li:hover {
+.pagination-page a li:hover {
     background-color: #fed0ab;
 }
 
 .active-pagina-page {
     background-color: #FF7506;
-}
-
-.active-pagina-page a {
-    color: #fff !important;
+    color: #fff !important
 }
 
 /* ==== Message Error Validate ==== */
@@ -192,6 +196,7 @@ table tbody tr:nth-of-type(even) {
     color: red;
     margin: 0px 10px;
 }
+
 /* ==== Popup Message ==== */
 #Message {
     display: block;

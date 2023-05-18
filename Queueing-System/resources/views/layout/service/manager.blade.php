@@ -25,15 +25,15 @@
 
                 <div class="area-date">
                     <p class="text-status-device">Chọn thời gian</p>
-                    <form action="" method="get">
+                    <form action="{{ route('service.filter') }}" method="get">
                         <div class="area-input-date">
-                            <input class="input-date-service" type="date" name="date" id="">
+                            <input class="input-date-service" type="date" name="dateStart" id="dateStart">
                             <svg width="5" height="6" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M4.13346 2.46129L2.9735 1.75776L1.08342 0.611381C0.683023 0.372106 0 0.543527 0 0.886368V3.11126V5.11474C0 5.45758 0.683023 5.629 1.08342 5.38616L4.13346 3.53624C4.62218 3.2434 4.62218 2.75771 4.13346 2.46129Z"
                                     fill="#535261" />
                             </svg>
-                            <input class="input-date-service" type="date">
+                            <input class="input-date-service" type="date" name="dateEnd" id="dateEnd">
                         </div>
                     </form>
 
@@ -64,7 +64,7 @@
         </div>
 
         <div class="table-list-device">
-            <!-- ==== Nút thêm thiết bị ==== -->
+            <!-- ==== Nút thêm dịch vụ ==== -->
             <a href="/service/create">
                 <div class="button-add-device">
                     <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -139,34 +139,39 @@
                     @endif
 
                     @if ($services->lastPage() <= 6) @for ($i=1; $i <=$services->lastPage(); $i++)
-                        <li class="{{ ($services->currentPage() == $i) ? 'active-pagina-page' : '' }}">
-                            <a
-                                href="{{ $services->url($i) }}&search_service={!! isset($searchTerm) ? $searchTerm : '' !!}">{{ $i }}</a>
-                        </li>
+                        <a href="{{ $services->url($i) }}&search_service={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                            <li class="{{ ($services->currentPage() == $i) ? 'active-pagina-page' : '' }}">
+                                {{ $i }}
+                            </li>
+                        </a>
                         @endfor
                         @else
-                        <li class="{{ ($services->currentPage() == 1) ? 'active-pagina-page' : '' }}">
-                            <a
-                                href="{{ $services->url(1) }}&search_service={!! isset($searchTerm) ? $searchTerm : '' !!}">1</a>
-                        </li>
+                        <a href="{{ $services->url(1) }}&search_service={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                            <li class="{{ ($services->currentPage() == 1) ? 'active-pagina-page' : '' }}">1</li>
+                        </a>
+
                         @if ($services->currentPage() > 3 && $services->lastPage() > 6)
                         <li><span>...</span></li>
                         @endif
                         @for ($i = max(2, $services->currentPage() - 2); $i <= min($services->currentPage() + 2,
                             $services->lastPage() - 1); $i++)
-                            <li class="{{ ($services->currentPage() == $i) ? 'active-pagina-page' : '' }}">
-                                <a
-                                    href="{{ $services->url($i) }}&search_service={!! isset($searchTerm) ? $searchTerm : '' !!}">{{ $i }}</a>
-                            </li>
+                            <a
+                                href="{{ $services->url($i) }}&search_service={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                                <li class="{{ ($services->currentPage() == $i) ? 'active-pagina-page' : '' }}">
+                                    {{ $i }}
+                                </li>
+                            </a>
                             @endfor
                             @if ($services->currentPage() < $services->lastPage() - 2 && $services->lastPage() > 6)
                                 <li><span>...</span></li>
                                 @endif
-                                <li
-                                    class="{{ ($services->currentPage() == $services->lastPage()) ? 'active-pagina-page' : '' }}">
-                                    <a
-                                        href="{{ $services->url($services->lastPage()) }}&search_service={!!isset($searchTerm) ? $searchTerm : '' !!}">{{ $services->lastPage() }}</a>
-                                </li>
+                                <a
+                                    href="{{ $services->url($services->lastPage()) }}&search_service={!!isset($searchTerm) ? $searchTerm : '' !!}">
+                                    <li
+                                        class="{{ ($services->currentPage() == $services->lastPage()) ? 'active-pagina-page' : '' }}">
+                                        {{ $services->lastPage() }}
+                                    </li>
+                                </a>
                                 @endif
 
                                 @if ($services->currentPage() < $services->lastPage())

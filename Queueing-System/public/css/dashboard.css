@@ -124,7 +124,7 @@
     gap: 24px;
 }
 
-.header-left-stats-board .dropdown .btn-select-stats {
+.btn-select-stats {
     width: 106px;
     height: 42px;
     border-radius: 8px;
@@ -170,6 +170,9 @@
     font-size: 16px;
     font-weight: 400;
     color: #535261;
+}
+.item-date-stats:focus {
+    background-color: #FF7506;
 }
 
 .active-date-stats {
@@ -285,12 +288,13 @@
 /* calendar */
 .calendar {
     margin-top: 16px;
-    width: 353px;
+    width: 353px !important;
     height: 285px;
     background: #FFFFFF;
     box-shadow: 2px 2px 15px rgba(70, 64, 67, 0.1);
     border-radius: 12px;
     padding: 12px 30px;
+    overflow: hidden;
 }
 
 .header-calendar {
@@ -374,8 +378,41 @@
 .active-days {
     background-color: #FF7506;
     border-radius: 8px;
+    color: #fff !important;
 }
 
-.active-days span {
-    color: #fff;
+/* Biểu đồ chart */
+#myChart {
+    position: relative;
+    height: 360px !important;
+   width: 800px !important;
+    overflow: hidden;
+}
+
+#myChart::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #eee;
+    transform: rotate(45deg);
+}
+
+#myChart::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #00c7b7;
+    transform-origin: top left;
+    transform: rotate(-45deg);
+    transition: transform 0.3s ease-in-out;
+}
+
+#myChart:hover::after {
+    transform: rotate(-135deg);
 }

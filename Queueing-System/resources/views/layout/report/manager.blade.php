@@ -5,15 +5,17 @@
 
         <div class="area-date-report">
             <p class="text-status-device">Chọn thời gian</p>
-            <div class="area-input-date">
-                <input class="input-date-service" type="date" name="" id="">
-                <svg width="5" height="6" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M4.13346 2.46129L2.9735 1.75776L1.08342 0.611381C0.683023 0.372106 0 0.543527 0 0.886368V3.11126V5.11474C0 5.45758 0.683023 5.629 1.08342 5.38616L4.13346 3.53624C4.62218 3.2434 4.62218 2.75771 4.13346 2.46129Z"
-                        fill="#535261" />
-                </svg>
-                <input class="input-date-service" type="date">
-            </div>
+            <form action="{{ route('report.filter') }}" method="get">
+                <div class="area-input-date">
+                    <input class="input-date-service" type="date" name="dateStart" id="dateStart">
+                    <svg width="5" height="6" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M4.13346 2.46129L2.9735 1.75776L1.08342 0.611381C0.683023 0.372106 0 0.543527 0 0.886368V3.11126V5.11474C0 5.45758 0.683023 5.629 1.08342 5.38616L4.13346 3.53624C4.62218 3.2434 4.62218 2.75771 4.13346 2.46129Z"
+                            fill="#535261" />
+                    </svg>
+                    <input class="input-date-service" type="date" name="dateEnd" id="dateEnd">
+                </div>
+            </form>
         </div>
         <div class="table-list-device">
             <!-- nút tải về-->
@@ -37,8 +39,9 @@
             <table>
                 <thead>
                     <tr>
-                        <th scope="col" class="th-border-left th-table-report">
-                            <form action="{{ route('report') }}" method="GET">
+                        <form action="{{ route('report.filter') }}" method="get">
+                            @csrf
+                            <th scope="col" class="th-border-left th-table-report">
                                 <div class="thead-table-report">
                                     <p>Số thứ tự</p>
                                     <button role="button" id="dropdownCodeService" data-bs-toggle="dropdown"
@@ -56,16 +59,17 @@
                                         <li><a class="dropdown-item active-date-stats item-date-stats"
                                                 href="{{ route('report') }}">Tất cả</a></li>
                                         @foreach($filter_ticket as $item)
-                                        <li><button class="dropdown-item item-date-stats" type="submit" name="codeid"
-                                                value="{{ $item->id }}">{{ $item->id }}</button></li>
+                                        <li>
+                                            <button class="dropdown-item item-date-stats" type="submit" name="codeid"
+                                                value="{{ $item->id }}">{{ $item->id }}
+                                            </button>
+                                        </li>
                                         @endforeach
                                     </ul>
                                 </div>
-                            </form>
-                        </th>
+                            </th>
 
-                        <th scope="col" class="border-table th-table-report">
-                            <form action="{{ route('report') }}" method="GET">
+                            <th scope="col" class="border-table th-table-report">
                                 <div class="thead-table-report">
                                     <p>Tên dịch vụ</p>
                                     <button role="button" id="dropdownCodeService" data-bs-toggle="dropdown"
@@ -93,98 +97,100 @@
                                     <button type="submit" class="btn-filter-search"><i
                                             class='bx bx-search-alt'></i></button>
                                 </div>
-                            </form>
-                        </th>
+                            </th>
 
-                        <th scope="col" class="border-table th-table-report">
-                            <form action="{{ route('report') }}" method="GET">
+                            <th scope="col" class="border-table th-table-report">
                                 <div class="thead-table-report">
                                     <p>Thời gian cấp</p>
                                     <button role="button" id="dropdownCodeService" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        <svg width="12" height="13" viewBox="0 0 12 13" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
+                                        aria-expanded="false"><svg width="12" height="13" viewBox="0 0 12 13"
+                                            fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path
                                                 d="M5.13807 0.907263L4.01241 2.19611L2.17821 4.29621C1.79537 4.74109 2.06964 5.5 2.61819 5.5L6.17802 5.5L9.38359 5.5C9.93213 5.5 10.2064 4.74109 9.81785 4.29621L6.85799 0.907263C6.38944 0.364247 5.61233 0.364247 5.13807 0.907263Z"
                                                 fill="white" />
                                             <path
                                                 d="M6.86193 12.0927L7.98759 10.8039L9.82179 8.70379C10.2046 8.25891 9.93036 7.5 9.38181 7.5L5.82198 7.5L2.61641 7.5C2.06787 7.5 1.79359 8.25891 2.18215 8.70379L5.14201 12.0927C5.61056 12.6358 6.38767 12.6358 6.86193 12.0927Z"
                                                 fill="white" />
-                                        </svg>
-                                    </button>
+                                        </svg></button>
 
                                     <ul class="dropdown-menu dropdown-menu-end list-table-codeservice"
                                         aria-labelledby="dropdownCodeService">
-                                        <li><a class="dropdown-item active-date-stats item-date-stats" href="#">Tất
-                                                cả</a>
+                                        <li><button type="submit" name="time" value=" "
+                                                class="dropdown-item active-date-stats item-date-stats">Tất
+                                                cả</button>
                                         </li>
-                                        @foreach($filter_ticket->groupBy(function($item) {
-                                        return date('H:i', strtotime($item->issued_at));
-                                        }) as $groupedItems)
-                                        @php
-                                        $firstItem = $groupedItems->first();
-                                        $formattedTime = date('H:i - d/m/Y', strtotime($firstItem->issued_at))
-                                        @endphp
-                                        <li>
-                                            <a class="dropdown-item item-date-stats" href="#">{{ $formattedTime }}</a>
+                                        @foreach($filter_ticket as $item)
+                                        <li><button type="submit" name="time[]]" value="{{ $item->issued_at }}"
+                                                class="dropdown-item item-date-stats">{{ date('H:i - d/m/Y', strtotime($item-> issued_at)) }}</button>
                                         </li>
                                         @endforeach
                                     </ul>
                                 </div>
-                            </form>
-                        </th>
+                            </th>
 
-                        <th scope="col" class="border-table th-table-report">
-                            <div class="thead-table-report">
-                                <p>Tình trạng</p>
-                                <button role="button" id="dropdownCodeService" data-bs-toggle="dropdown"
-                                    aria-expanded="false"><svg width="12" height="13" viewBox="0 0 12 13" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M5.13807 0.907263L4.01241 2.19611L2.17821 4.29621C1.79537 4.74109 2.06964 5.5 2.61819 5.5L6.17802 5.5L9.38359 5.5C9.93213 5.5 10.2064 4.74109 9.81785 4.29621L6.85799 0.907263C6.38944 0.364247 5.61233 0.364247 5.13807 0.907263Z"
-                                            fill="white" />
-                                        <path
-                                            d="M6.86193 12.0927L7.98759 10.8039L9.82179 8.70379C10.2046 8.25891 9.93036 7.5 9.38181 7.5L5.82198 7.5L2.61641 7.5C2.06787 7.5 1.79359 8.25891 2.18215 8.70379L5.14201 12.0927C5.61056 12.6358 6.38767 12.6358 6.86193 12.0927Z"
-                                            fill="white" />
-                                    </svg></button>
+                            <th scope="col" class="border-table th-table-report">
+                                <div class="thead-table-report">
+                                    <p>Tình trạng</p>
+                                    <button role="button" id="dropdownCodeService" data-bs-toggle="dropdown"
+                                        aria-expanded="false"><svg width="12" height="13" viewBox="0 0 12 13"
+                                            fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M5.13807 0.907263L4.01241 2.19611L2.17821 4.29621C1.79537 4.74109 2.06964 5.5 2.61819 5.5L6.17802 5.5L9.38359 5.5C9.93213 5.5 10.2064 4.74109 9.81785 4.29621L6.85799 0.907263C6.38944 0.364247 5.61233 0.364247 5.13807 0.907263Z"
+                                                fill="white" />
+                                            <path
+                                                d="M6.86193 12.0927L7.98759 10.8039L9.82179 8.70379C10.2046 8.25891 9.93036 7.5 9.38181 7.5L5.82198 7.5L2.61641 7.5C2.06787 7.5 1.79359 8.25891 2.18215 8.70379L5.14201 12.0927C5.61056 12.6358 6.38767 12.6358 6.86193 12.0927Z"
+                                                fill="white" />
+                                        </svg></button>
 
-                                <ul class="dropdown-menu dropdown-menu-end list-table-codeservice"
-                                    aria-labelledby="dropdownCodeService">
-                                    <li><a class="dropdown-item active-date-stats item-date-stats" href="#">Tất
-                                            cả</a>
-                                    </li>
-                                    <li><a class="dropdown-item item-date-stats" href="#">Đang chờ</a></li>
-                                    <li><a class="dropdown-item item-date-stats" href="#">Đã sử dụng</a></li>
-                                    <li><a class="dropdown-item item-date-stats" href="#">Bỏ qua</a></li>
-                                </ul>
-                            </div>
-                        </th>
+                                    <ul class="dropdown-menu dropdown-menu-end list-table-codeservice"
+                                        aria-labelledby="dropdownCodeService">
+                                        <li>
+                                            <button class="dropdown-item active-date-stats item-date-stats"
+                                                type="submit" name="status" value=" ">Tất cả</button>
+                                        </li>
+                                        <li><button class="dropdown-item item-date-stats" type="submit" name="status"
+                                                value="pending">Đang chờ</button></li>
+                                        <li><button class="dropdown-item item-date-stats" type="submit" name="status"
+                                                value="used">Đã
+                                                sử dụng</button></li>
+                                        <li>
+                                            <button class="dropdown-item item-date-stats" type="submit" name="status"
+                                                value="skipped">
+                                                Bỏ qua</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </th>
 
-                        <th scope="col" class="th-border-right th-table-report">
-                            <div class="thead-table-report">
-                                <p>Nguồn cấp</p>
-                                <button role="button" id="dropdownCodeService" data-bs-toggle="dropdown"
-                                    aria-expanded="false"><svg width="12" height="13" viewBox="0 0 12 13" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M5.13807 0.907263L4.01241 2.19611L2.17821 4.29621C1.79537 4.74109 2.06964 5.5 2.61819 5.5L6.17802 5.5L9.38359 5.5C9.93213 5.5 10.2064 4.74109 9.81785 4.29621L6.85799 0.907263C6.38944 0.364247 5.61233 0.364247 5.13807 0.907263Z"
-                                            fill="white" />
-                                        <path
-                                            d="M6.86193 12.0927L7.98759 10.8039L9.82179 8.70379C10.2046 8.25891 9.93036 7.5 9.38181 7.5L5.82198 7.5L2.61641 7.5C2.06787 7.5 1.79359 8.25891 2.18215 8.70379L5.14201 12.0927C5.61056 12.6358 6.38767 12.6358 6.86193 12.0927Z"
-                                            fill="white" />
-                                    </svg></button>
+                            <th scope="col" class="th-border-right th-table-report">
+                                <div class="thead-table-report">
+                                    <p>Nguồn cấp</p>
+                                    <button role="button" id="dropdownCodeService" data-bs-toggle="dropdown"
+                                        aria-expanded="false"><svg width="12" height="13" viewBox="0 0 12 13"
+                                            fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M5.13807 0.907263L4.01241 2.19611L2.17821 4.29621C1.79537 4.74109 2.06964 5.5 2.61819 5.5L6.17802 5.5L9.38359 5.5C9.93213 5.5 10.2064 4.74109 9.81785 4.29621L6.85799 0.907263C6.38944 0.364247 5.61233 0.364247 5.13807 0.907263Z"
+                                                fill="white" />
+                                            <path
+                                                d="M6.86193 12.0927L7.98759 10.8039L9.82179 8.70379C10.2046 8.25891 9.93036 7.5 9.38181 7.5L5.82198 7.5L2.61641 7.5C2.06787 7.5 1.79359 8.25891 2.18215 8.70379L5.14201 12.0927C5.61056 12.6358 6.38767 12.6358 6.86193 12.0927Z"
+                                                fill="white" />
+                                        </svg></button>
 
-                                <ul class="dropdown-menu dropdown-menu-end list-table-codeservice"
-                                    aria-labelledby="dropdownCodeService">
-                                    <li><a class="dropdown-item item-date-stats" href="#">Tất
-                                            cả</a>
-                                    </li>
-                                    <li><a class="dropdown-item item-date-stats" href="#">Kiosk</a></li>
-                                    <li><a class="dropdown-item item-date-stats active-date-stats" href="#">Hệ
-                                            thống</a></li>
-                                </ul>
-                            </div>
-                        </th>
+                                    <ul class="dropdown-menu dropdown-menu-end list-table-codeservice"
+                                        aria-labelledby="dropdownCodeService">
+                                        <li><button type="submit" name="source" value=" "
+                                                class="dropdown-item item-date-stats">Tất
+                                                cả</button>
+                                        </li>
+                                        <li><button type="submit" name="source" value="kiosk"
+                                                class="dropdown-item item-date-stats">Kiosk</button></li>
+                                        <li><button type="submit" name="source" value="system"
+                                                class="dropdown-item item-date-stats active-date-stats">Hệ
+                                                thống</button></li>
+                                    </ul>
+                                </div>
+                            </th>
+                        </form>
                     </tr>
                 </thead>
                 <tbody>
@@ -239,33 +245,41 @@
                     @endif
 
                     @if ($tickets->lastPage() <= 6) @for ($i=1; $i <=$tickets->lastPage(); $i++)
-                        <li class="{{ ($tickets->currentPage() == $i) ? 'active-pagina-page' : '' }}">
-                            <a href="{{ $tickets->url($i) }}">{{ $i }}</a>
-                        </li>
+                        <a href="{{ $tickets->url($i) }}">
+                            <li class="{{ ($tickets->currentPage() == $i) ? 'active-pagina-page' : '' }}">
+                                {{ $i }}
+                            </li>
+                        </a>
                         @endfor
                         @else
-                        <li class="{{ ($tickets->currentPage() == 1) ? 'active-pagina-page' : '' }}">
-                            <a href="{{ $tickets->url(1) }}">1</a>
-                        </li>
+                        <a href="{{ $tickets->url(1) }}">
+                            <li class="{{ ($tickets->currentPage() == 1) ? 'active-pagina-page' : '' }}">
+                                1
+                            </li>
+                        </a>
                         @if ($tickets->currentPage() > 3 && $tickets->lastPage() > 6)
                         <li><span>...</span></li>
                         @endif
                         @for ($i = max(2, $tickets->currentPage() - 2); $i <= min($tickets->currentPage() + 2,
                             $tickets->lastPage() - 1); $i++)
-                            <li class="{{ ($tickets->currentPage() == $i) ? 'active-pagina-page' : '' }}">
-                                <a href="{{ $tickets->url($i) }}">{{ $i }}</a>
-                            </li>
+                            <a href="{{ $tickets->url($i) }}">
+                                <li class="{{ ($tickets->currentPage() == $i) ? 'active-pagina-page' : '' }}">
+                                    {{ $i }}
+                                </li>
+                            </a>
                             @endfor
                             @if ($tickets->currentPage() < $tickets->lastPage() - 2 && $tickets->lastPage() > 6)
                                 <li><span>...</span></li>
                                 @endif
-                                <li
-                                    class="{{ ($tickets->currentPage() == $tickets->lastPage()) ? 'active-pagina-page' : '' }}">
-                                    <a href="{{ $tickets->url($tickets->lastPage()) }}">{{ $tickets->lastPage() }}</a>
-                                </li>
+                                <a href="{{ $tickets->url($tickets->lastPage()) }}">
+                                    <li
+                                        class="{{ ($tickets->currentPage() == $tickets->lastPage()) ? 'active-pagina-page' : '' }}">
+                                        {{ $tickets->lastPage() }}
+                                    </li>
+                                </a>
                                 @endif
 
-                                <!-- {{-- Nút trang kế tiếp --}} -->
+
                                 @if ($tickets->currentPage() < $tickets->lastPage())
                                     <a href="{{ $tickets->nextPageUrl() }}">
                                         <li>

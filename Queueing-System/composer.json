@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "components/jquery": "^3.6",
         "consoletvs/charts": "^6.6",
         "google/auth": "^1.28",
         "guzzlehttp/guzzle": "^7.2",
@@ -14,7 +15,8 @@
         "laravel/tinker": "^2.8",
         "moment/moment": "^2.29",
         "realrashid/sweet-alert": "*",
-        "spatie/laravel-activitylog": "^4.7"
+        "spatie/laravel-activitylog": "^4.7",
+        "twbs/bootstrap": "^5.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

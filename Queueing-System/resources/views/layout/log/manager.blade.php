@@ -7,15 +7,17 @@
             <div class="area-filter">
                 <div class="area-date-logsuser">
                     <p class="text-status-device">Chọn thời gian</p>
-                    <div class="area-input-date">
-                        <input class="input-date-service" type="date" name="" id="">
-                        <svg width="5" height="6" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M4.13346 2.46129L2.9735 1.75776L1.08342 0.611381C0.683023 0.372106 0 0.543527 0 0.886368V3.11126V5.11474C0 5.45758 0.683023 5.629 1.08342 5.38616L4.13346 3.53624C4.62218 3.2434 4.62218 2.75771 4.13346 2.46129Z"
-                                fill="#535261" />
-                        </svg>
-                        <input class="input-date-service" type="date">
-                    </div>
+                    <form action="{{ route('logs.filter') }}" method="get">
+                <div class="area-input-date">
+                    <input class="input-date-service" type="date" name="dateStart" id="dateStart">
+                    <svg width="5" height="6" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M4.13346 2.46129L2.9735 1.75776L1.08342 0.611381C0.683023 0.372106 0 0.543527 0 0.886368V3.11126V5.11474C0 5.45758 0.683023 5.629 1.08342 5.38616L4.13346 3.53624C4.62218 3.2434 4.62218 2.75771 4.13346 2.46129Z"
+                            fill="#535261" />
+                    </svg>
+                    <input class="input-date-service" type="date" name="dateEnd" id="dateEnd">
+                </div>
+            </form>
 
                 </div>
             </div>
@@ -24,8 +26,9 @@
                 <p class="text-status-device">Từ khóa</p>
                 <form action="{{ route('logs.search') }}" method="get">
                     <div class="input-search">
-                        <input name="search_logs" class="search-menubar-device" type="text" placeholder="Nhập từ khóa" value="{{ $searchTerm ?? '' }}">
-                        <button class="btn-search-menubar-device" type="submit" >
+                        <input name="search_logs" class="search-menubar-device" type="text" placeholder="Nhập từ khóa"
+                            value="{{ $searchTerm ?? '' }}">
+                        <button class="btn-search-menubar-device" type="submit">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -73,12 +76,13 @@
             @endif
 
             <!-- ===== Phân Trang -->
-            @if ($logs->lastPage() > 1)
+           <!-- ==== Phân trang ==== -->
+           @if ($logs->lastPage() > 1)
             <div class="area-pagination-page">
                 <ul class="pagination-page">
                     @if ($logs->currentPage() > 1)
                     <a
-                        href="{{ $logs->previousPageUrl() }}&search_service={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                        href="{{ $logs->previousPageUrl() }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}">
                         <li>
                             <svg width="8" height="12" viewBox="0 0 8 12" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -91,39 +95,41 @@
                     @endif
 
                     @if ($logs->lastPage() <= 6) @for ($i=1; $i <=$logs->lastPage(); $i++)
-                        <li class="{{ ($logs->currentPage() == $i) ? 'active-pagina-page' : '' }}">
-                            <a
-                                href="{{ $logs->url($i) }}&search_service={!! isset($searchTerm) ? $searchTerm : '' !!}">{{ $i }}</a>
-                        </li>
+                        <a href="{{ $logs->url($i) }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                            <li class="{{ ($logs->currentPage() == $i) ? 'active-pagina-page' : '' }}">{{ $i }}</li>
+                        </a>
                         @endfor
                         @else
-                        <li class="{{ ($logs->currentPage() == 1) ? 'active-pagina-page' : '' }}">
-                            <a
-                                href="{{ $logs->url(1) }}&search_service={!! isset($searchTerm) ? $searchTerm : '' !!}">1</a>
-                        </li>
+                        <a href="{{ $logs->url(1) }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                            <li class="{{ ($logs->currentPage() == 1) ? 'active-pagina-page' : '' }}">1</li>
+                        </a>
                         @if ($logs->currentPage() > 3 && $logs->lastPage() > 6)
                         <li><span>...</span></li>
                         @endif
                         @for ($i = max(2, $logs->currentPage() - 2); $i <= min($logs->currentPage() + 2,
                             $logs->lastPage() - 1); $i++)
-                            <li class="{{ ($logs->currentPage() == $i) ? 'active-pagina-page' : '' }}">
-                                <a
-                                    href="{{ $logs->url($i) }}&search_service={!! isset($searchTerm) ? $searchTerm : '' !!}">{{ $i }}</a>
-                            </li>
+                            <a
+                                href="{{ $logs->url($i) }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                                <li class="{{ ($logs->currentPage() == $i) ? 'active-pagina-page' : '' }}">
+                                    {{ $i }}
+                                </li>
+                            </a>
                             @endfor
                             @if ($logs->currentPage() < $logs->lastPage() - 2 && $logs->lastPage() > 6)
                                 <li><span>...</span></li>
                                 @endif
-                                <li
-                                    class="{{ ($logs->currentPage() == $logs->lastPage()) ? 'active-pagina-page' : '' }}">
-                                    <a
-                                        href="{{ $logs->url($logs->lastPage()) }}&search_service={!!isset($searchTerm) ? $searchTerm : '' !!}">{{ $logs->lastPage() }}</a>
-                                </li>
+                                <a
+                                    href="{{ $logs->url($logs->lastPage()) }}&search_device={!!isset($searchTerm) ? $searchTerm : '' !!}">
+                                    <li
+                                        class="{{ ($logs->currentPage() == $logs->lastPage()) ? 'active-pagina-page' : '' }}">
+                                        {{ $logs->lastPage() }}
+                                    </li>
+                                </a>
                                 @endif
 
                                 @if ($logs->currentPage() < $logs->lastPage())
                                     <a
-                                        href="{{ $logs->nextPageUrl() }}&search_service={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                                        href="{{ $logs->nextPageUrl() }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}">
                                         <li>
                                             <svg width="8" height="12" viewBox="0 0 8 12" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">

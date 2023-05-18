@@ -33,8 +33,10 @@
                         href="/role">Quản lý vai trò</a></li>
                 <li class="item-setting-system {{ Route::currentRouteName() == 'account' ? 'active-menubar' : '' }}"><a
                         href="/account">Quản lý tài khoản</a></li>
-                <li class="item-setting-system {{ Route::currentRouteName() == 'logs_account' ? 'active-menubar' : '' }}">
-                    <a href="/logs_account">Nhật ký người dùng</a></li>
+                <li
+                    class="item-setting-system {{ Route::currentRouteName() == 'logs_account' ? 'active-menubar' : '' }}">
+                    <a href="/logs_account">Nhật ký người dùng</a>
+                </li>
             </ul>
 
         </li>

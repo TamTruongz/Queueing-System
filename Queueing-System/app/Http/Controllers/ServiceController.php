@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
 use App\Models\Service;
+use App\Models\Role;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -28,7 +30,14 @@ class ServiceController extends Controller
 
     public function create()
     {
-        return view('layout.service.create');
+        $user = auth()->user();
+        $role = Role::where('name', $user->role)->first();
+        if ($role && ($role->hasPermission('add') || $role->hasPermission('all'))) {
+            return view('layout.service.create');
+        } else {
+            return redirect()->back()->with('success', 'Bạn không có quyền truy cập!');
+        }
+        
     }
 
     public function store(Request $request)
@@ -61,8 +70,15 @@ class ServiceController extends Controller
 
     public function edit($id)
     {
-        $service = Service::findOrFail($id);
-        return view('layout.service.create', compact('service'));
+        $user = auth()->user();
+        $role = Role::where('name', $user->role)->first();
+        if ($role && ($role->hasPermission('edit') || $role->hasPermission('all'))) {
+            $service = Service::findOrFail($id);
+            return view('layout.service.create', compact('service'));
+        } else {
+            return redirect()->back()->with('success', 'Bạn không có quyền truy cập!');
+        }
+        
     }
 
     public function update(Request $request, $id)
@@ -98,7 +114,50 @@ class ServiceController extends Controller
     public function info($id)
     {
         $service = Service::findOrFail($id);
-        return view('layout.service.info', compact('service'));
+        $tickets = Ticket::latest()->paginate(8);
+        if ($tickets->total() > $tickets->perPage()) {
+            return view('layout.service.info',['tickets' => $tickets], compact('service'));
+        } else {
+            return view('layout.service.info', ['tickets' => $tickets,'hidePagination' => true], compact('service'));
+        }
+        
+    }
+    public function searchinfo(Request $request, $id)
+    {
+        $service = Service::findOrFail($id);
+
+        $searchTerm = $request->input('search_ticket_info');
+
+        $tickets = DB::table('tickets')
+            ->where(function ($query) use ($searchTerm) {
+                $query->where('id', 'like', '%'.$searchTerm.'%')
+                    ->orWhere('status', 'like', '%'.$searchTerm.'%');
+            })->paginate(8);
+            if ($tickets->total() > $tickets->perPage()) {
+                return view('layout.service.info',['tickets' => $tickets], compact('service'));
+            } else {
+                return view('layout.service.info', ['tickets' => $tickets, 'hidePagination' => true],compact('service'));
+            }
+    }
+
+    public function filterinfo(Request $request, $id)
+    {
+        $service = Service::findOrFail($id);
+        $dateStart = $request->input('dateStart');
+        $dateEnd = $request->input('dateEnd');
+        $filter_status_info = $request->input('filter_status_info');
+
+        
+
+        $tickets = DB::table('tickets')
+        ->when($filter_status_info, function ($query, $filter_status_info) {
+            return $query->where('status', $filter_status_info);
+        })
+        ->when($dateStart && $dateEnd, function ($query) use ($dateStart, $dateEnd) {
+            return $query->whereBetween('created_at', [$dateStart, $dateEnd]);
+        })
+        ->paginate(8);
+        return view('layout.service.info', ['tickets' => $tickets], compact('service'));
     }
 
     public function search(Request $request)
@@ -118,9 +177,15 @@ class ServiceController extends Controller
     {
         $filter_status = $request->input('filter_status');
 
+        $dateStart = $request->input('dateStart');
+        $dateEnd = $request->input('dateEnd');
+
         $services = DB::table('services')
         ->when($filter_status, function ($query, $filter_status) {
             return $query->where('status', $filter_status);
+        })
+        ->when($dateStart && $dateEnd, function ($query) use ($dateStart, $dateEnd) {
+            return $query->whereBetween('created_at', [$dateStart, $dateEnd]);
         })
         ->paginate(9);
         return view('layout.service.manager', ['services' => $services]);

@@ -24,8 +24,9 @@ class Kernel extends HttpKernel
         
     ];
     protected $routeMiddleware = [
-        //...
+        'auth' => \App\Http\Middleware\Authenticate::class,
         'log_account_actions' => \App\Http\Middleware\LogAccountActions::class,
+        'checkrole' => \App\Http\Middleware\CheckRole::class,
     ];
 
     /**

@@ -15,7 +15,8 @@
                     <select class="btn-select-service" name="filter_name_code" id="filter_name_code">
                         <option value=" ">Tất cả</option>
                         @foreach($services as $services)
-                        <option {!! (request()->input('filter_name')) == $services->service_name ? 'selected' : '' !!} value="{{ $services->service_name }}">{{ $services->service_name }}</option>
+                        <option {!! (request()->input('filter_name')) == $services->service_name ? 'selected' : '' !!}
+                            value="{{ $services->service_name }}">{{ $services->service_name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -24,9 +25,12 @@
                     <p class="text-status-device">Tình trạng</p>
                     <select class="btn-condition" name="filter_status" id="filter_status_code">
                         <option value=" ">Tất cả</option>
-                        <option {!! (request()->input('filter_status')) == 'pending' ? 'selected' : '' !!} value="pending">Đang chờ</option>
-                        <option {!! (request()->input('filter_status')) == 'used' ? 'selected' : '' !!} value="used">Đã sử dụng</option>
-                        <option {!! (request()->input('filter_status')) == 'skipped' ? 'selected' : '' !!} value="skipped">Bỏ qua</option>
+                        <option {!! (request()->input('filter_status')) == 'pending' ? 'selected' : '' !!}
+                            value="pending">Đang chờ</option>
+                        <option {!! (request()->input('filter_status')) == 'used' ? 'selected' : '' !!} value="used">Đã
+                            sử dụng</option>
+                        <option {!! (request()->input('filter_status')) == 'skipped' ? 'selected' : '' !!}
+                            value="skipped">Bỏ qua</option>
                     </select>
                 </div>
 
@@ -35,22 +39,26 @@
 
                     <select class="btn-condition" name="filter_source" id="filter_source_code">
                         <option value=" ">Tất cả</option>
-                        <option {!! (request()->input('filter_source')) == 'Kiosk' ? 'selected' : '' !!} value="Kiosk">Kiosk</option>
-                        <option {!! (request()->input('filter_source')) == 'system' ? 'selected' : '' !!} value="system">Hệ thống</option>
+                        <option {!! (request()->input('filter_source')) == 'Kiosk' ? 'selected' : '' !!}
+                            value="Kiosk">Kiosk</option>
+                        <option {!! (request()->input('filter_source')) == 'system' ? 'selected' : '' !!}
+                            value="system">Hệ thống</option>
                     </select>
                 </div>
 
                 <div class="area-date">
                     <p class="text-status-device">Chọn thời gian</p>
-                    <div class="area-input-date">
-                        <input class="input-date-service" type="date" name="" id="">
-                        <svg width="5" height="6" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M4.13346 2.46129L2.9735 1.75776L1.08342 0.611381C0.683023 0.372106 0 0.543527 0 0.886368V3.11126V5.11474C0 5.45758 0.683023 5.629 1.08342 5.38616L4.13346 3.53624C4.62218 3.2434 4.62218 2.75771 4.13346 2.46129Z"
-                                fill="#535261" />
-                        </svg>
-                        <input class="input-date-service" type="date">
-                    </div>
+                    <form action="{{ route('ticket.filter') }}" method="get">
+                        <div class="area-input-date">
+                            <input class="input-date-service" type="date" name="dateStart" id="dateStart">
+                            <svg width="5" height="6" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M4.13346 2.46129L2.9735 1.75776L1.08342 0.611381C0.683023 0.372106 0 0.543527 0 0.886368V3.11126V5.11474C0 5.45758 0.683023 5.629 1.08342 5.38616L4.13346 3.53624C4.62218 3.2434 4.62218 2.75771 4.13346 2.46129Z"
+                                    fill="#535261" />
+                            </svg>
+                            <input class="input-date-service" type="date" name="dateEnd" id="dateEnd">
+                        </div>
+                    </form>
 
                 </div>
             </div>
@@ -167,34 +175,40 @@
                     @endif
 
                     @if ($tickets->lastPage() <= 6) @for ($i=1; $i <=$tickets->lastPage(); $i++)
-                        <li class="{{ ($tickets->currentPage() == $i) ? 'active-pagina-page' : '' }}">
-                            <a
-                                href="{{ $tickets->url($i) }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}">{{ $i }}</a>
-                        </li>
+                        <a href="{{ $tickets->url($i) }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                            <li class="{{ ($tickets->currentPage() == $i) ? 'active-pagina-page' : '' }}">
+                                {{ $i }}
+                            </li>
+                        </a>
                         @endfor
                         @else
-                        <li class="{{ ($tickets->currentPage() == 1) ? 'active-pagina-page' : '' }}">
-                            <a
-                                href="{{ $tickets->url(1) }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}">1</a>
-                        </li>
+                        <a href="{{ $tickets->url(1) }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                            <li class="{{ ($tickets->currentPage() == 1) ? 'active-pagina-page' : '' }}">
+                                1
+                            </li>
+                        </a>
                         @if ($tickets->currentPage() > 3 && $tickets->lastPage() > 6)
                         <li><span>...</span></li>
                         @endif
                         @for ($i = max(2, $tickets->currentPage() - 2); $i <= min($tickets->currentPage() + 2,
                             $tickets->lastPage() - 1); $i++)
-                            <li class="{{ ($tickets->currentPage() == $i) ? 'active-pagina-page' : '' }}">
-                                <a
-                                    href="{{ $tickets->url($i) }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}">{{ $i }}</a>
-                            </li>
+                            <a
+                                href="{{ $tickets->url($i) }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                                <li class="{{ ($tickets->currentPage() == $i) ? 'active-pagina-page' : '' }}">
+                                    {{ $i }}
+                                </li>
+                            </a>
                             @endfor
                             @if ($tickets->currentPage() < $tickets->lastPage() - 2 && $tickets->lastPage() > 6)
                                 <li><span>...</span></li>
                                 @endif
-                                <li
-                                    class="{{ ($tickets->currentPage() == $tickets->lastPage()) ? 'active-pagina-page' : '' }}">
-                                    <a
-                                        href="{{ $tickets->url($tickets->lastPage()) }}&search_ticket={!!isset($searchTerm) ? $searchTerm : '' !!}">{{ $tickets->lastPage() }}</a>
-                                </li>
+                                <a
+                                    href="{{ $tickets->url($tickets->lastPage()) }}&search_ticket={!!isset($searchTerm) ? $searchTerm : '' !!}">
+                                    <li
+                                        class="{{ ($tickets->currentPage() == $tickets->lastPage()) ? 'active-pagina-page' : '' }}">
+                                        {{ $tickets->lastPage() }}
+                                    </li>
+                                </a>
                                 @endif
 
                                 @if ($tickets->currentPage() < $tickets->lastPage())

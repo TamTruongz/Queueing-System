@@ -40,6 +40,10 @@
     <link rel="stylesheet" href="/css/info.css">
     <link rel="stylesheet" href="/css/style.css">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body class="{{ (Auth::check()) ? '' : 'bgcolor-body-page'}}">
@@ -62,5 +66,10 @@
 
 <script src="/js/general.js"></script>
 <script src="/js/PopupMessage.js"></script>
+<script src="/js/FilterDate.js"></script>
+<script src="/js/Calendar.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/js/Chart.js"></script>
 
 </html>

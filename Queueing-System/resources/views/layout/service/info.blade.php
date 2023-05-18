@@ -95,7 +95,7 @@
                             </div>
                         </div>
                         @endif
-                        
+
                         @if(isset($service->reset_daily) && $service->reset_daily == true)
                         <div>
                             <p class="text-level-rules-1">Reset mỗi ngày</p>
@@ -108,49 +108,71 @@
 
             <div class="content-info-service-right">
                 <div class="menu-info-service">
-                    <div class="area-filter-info-service">
-                        <div class="dropdown status-device">
-                            <p class="text-status-device">Trạng thái</p>
+                    <form action="{{ route('service.filterinfo', ['id' => $service->id]) }}" method="get">
+                        <div class="area-filter-info-service">
+                            <div class="dropdown status-device">
+                                <p class="text-status-device">Trạng thái</p>
+                                <button class="btn-select-info-service" role="button" id="dropdownMenuStatusDevice"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    @if(request()->input('filter_status_info') == 'used')
+                                    Đã hoàn thành
+                                    @elseif(request()->input('filter_status_info') == 'pending')
+                                    Đang thực hiện
+                                    @elseif(request()->input('filter_status_info') == 'skipped')
+                                    Vắng
+                                    @else
+                                    Tất cả
+                                    @endif
+                                    <svg width="14" height="8" viewBox="0 0 14 8" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1 1L7 7L13 1" fill="#FF7506" />
+                                        <path d="M1 1L7 7L13 1H1Z" stroke="#FF7506" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </button>
 
-                            <button class="btn-select-info-service" role="button" id="dropdownMenuStatusDevice"
-                                data-bs-toggle="dropdown" aria-expanded="false"> Tất cả
-                                <svg width="14" height="8" viewBox="0 0 14 8" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1 1L7 7L13 1" fill="#FF7506" />
-                                    <path d="M1 1L7 7L13 1H1Z" stroke="#FF7506" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                            </button>
+                                <ul class="dropdown-menu list-status-active-info-service"
+                                    aria-labelledby="dropdownMenuStats">
+                                    <li><button type="submit" name="filter_status_info" value=" "
+                                            class="dropdown-item item-date-stats {{ request()->input('filter_status_info') == '' ? 'active-date-stats':''}}">Tất
+                                            cả</button>
+                                    </li>
+                                    <li><button type="submit" name="filter_status_info" value="used"
+                                            class="dropdown-item item-date-stats {{ request()->input('filter_status_info') == 'used' ? 'active-date-stats':''}}">Đã
+                                            hoàn thành</button></li>
+                                    <li><button type="submit" name="filter_status_info" value="pending"
+                                            class="dropdown-item item-date-stats {{ request()->input('filter_status_info') == 'pending' ? 'active-date-stats':''}}">Đã
+                                            thực hiện</button></li>
+                                    <li><button type="submit" name="filter_status_info" value="skipped"
+                                            class="dropdown-item item-date-stats {{ request()->input('filter_status_info') == 'skipped' ? 'active-date-stats':''}}">Vắng</button>
+                                    </li>
 
-                            <ul class="dropdown-menu list-status-active-info-service"
-                                aria-labelledby="dropdownMenuStats">
-                                <li><a class="dropdown-item active-date-stats item-date-stats" href="#">Tất cả</a>
-                                </li>
-                                <li><a class="dropdown-item item-date-stats" href="#">Đã hoàn thành</a></li>
-                                <li><a class="dropdown-item item-date-stats" href="#">Đã thực hiện</a></li>
-                                <li><a class="dropdown-item item-date-stats" href="#">Vắng</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="">
-                            <p class="text-status-device">Chọn thời gian</p>
-                            <div class="area-input-date">
-                                <input class="input-date-info-service" type="date" name="" id="">
-                                <svg width="5" height="6" viewBox="0 0 5 6" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M4.13346 2.46129L2.9735 1.75776L1.08342 0.611381C0.683023 0.372106 0 0.543527 0 0.886368V3.11126V5.11474C0 5.45758 0.683023 5.629 1.08342 5.38616L4.13346 3.53624C4.62218 3.2434 4.62218 2.75771 4.13346 2.46129Z"
-                                        fill="#535261" />
-                                </svg>
-                                <input class="input-date-info-service" type="date">
+                                </ul>
                             </div>
+                            <div>
+                                <p class="text-status-device">Chọn thời gian</p>
+                                <div class="area-input-date">
+                                    <div class="area-input-date">
+                                        <input class="input-date-service" type="date" name="dateStart" id="dateStart">
+                                        <svg width="5" height="6" viewBox="0 0 5 6" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M4.13346 2.46129L2.9735 1.75776L1.08342 0.611381C0.683023 0.372106 0 0.543527 0 0.886368V3.11126V5.11474C0 5.45758 0.683023 5.629 1.08342 5.38616L4.13346 3.53624C4.62218 3.2434 4.62218 2.75771 4.13346 2.46129Z"
+                                                fill="#535261" />
+                                        </svg>
+                                        <input class="input-date-service" type="date" name="dateEnd" id="dateEnd">
+                                    </div>
+                                </div>
+                            </div>
+                    </form>
 
-                        </div>
-
-                        <div class="area-search">
-                            <p class="text-status-device">Từ khóa</p>
+                    <div class="area-search">
+                        <p class="text-status-device">Từ khóa</p>
+                        <form action="{{ route('service.searchinfo', ['id' => $service->id]) }}" method="get">
                             <div class="input-search">
-                                <input class="search-info-service" type="text" placeholder="Nhập từ khóa">
+                                <input name="search_ticket_info" class="search-info-service"
+                                    class="search-menubar-device" type="text" placeholder="Nhập từ khóa"
+                                    value="{{ $searchTerm ?? '' }}">
                                 <button class="btn-search-menubar-device" type="submit">
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -164,159 +186,130 @@
                                 </button>
 
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
-
-                <div class="table-info-service">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th scope="col" class="th-border-left border-info-service">Số thứ tự</th>
-                                <th scope="col" class="th-border-right">Trạng thái</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="color-tr-white">
-                                <td class="border-info-service">
-                                    2010001
-                                </td>
-                                <td>
-                                    <svg width="8" height="9" viewBox="0 0 8 9" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <circle cx="4" cy="4.70703" r="4" fill="#34CD26" />
-                                    </svg>
-                                    Đã hoàn thành
-                                </td>
-                            </tr>
-
-                            <tr class="color-tr-or">
-                                <td class="border-info-service">
-                                    2010001
-                                </td>
-                                <td>
-                                    <svg width="8" height="9" viewBox="0 0 8 9" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <circle cx="4" cy="4.70703" r="4" fill="#34CD26" />
-                                    </svg>
-                                    Đã hoàn thành
-                                </td>
-                            </tr>
-                            <tr class="color-tr-white">
-                                <td class="border-info-service">
-                                    2010001
-                                </td>
-                                <td>
-                                    <svg width="8" height="9" viewBox="0 0 8 9" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <circle cx="4" cy="4.70703" r="4" fill="#5490EB" />
-                                    </svg>
-
-                                    Đang thực hiện
-                                </td>
-                            </tr>
-
-                            <tr class="color-tr-or">
-                                <td class="border-info-service">
-                                    2010001
-                                </td>
-                                <td>
-                                    <svg width="8" height="9" viewBox="0 0 8 9" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <circle cx="4" cy="4.70703" r="4" fill="#6C7585" />
-                                    </svg>
-
-                                    Vắng
-                                </td>
-                            </tr>
-                            <tr class="color-tr-white">
-                                <td class="border-info-service">
-                                    2010001
-                                </td>
-                                <td>
-                                    <svg width="8" height="9" viewBox="0 0 8 9" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <circle cx="4" cy="4.70703" r="4" fill="#34CD26" />
-                                    </svg>
-                                    Đã hoàn thành
-                                </td>
-                            </tr>
-
-                            <tr class="color-tr-or">
-                                <td class="border-info-service">
-                                    2010001
-                                </td>
-                                <td>
-                                    <svg width="8" height="9" viewBox="0 0 8 9" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <circle cx="4" cy="4.70703" r="4" fill="#6C7585" />
-                                    </svg>
-                                    Vắng
-                                </td>
-                            </tr>
-                            <tr class="color-tr-white">
-                                <td class="border-info-service">
-                                    2010001
-                                </td>
-                                <td>
-                                    <svg width="8" height="9" viewBox="0 0 8 9" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <circle cx="4" cy="4.70703" r="4" fill="#34CD26" />
-                                    </svg>
-                                    Đã hoàn thành
-                                </td>
-                            </tr>
-
-                            <tr class="color-tr-or">
-                                <td class="border-info-service">
-                                    2010001
-                                </td>
-                                <td>
-                                    <svg width="8" height="9" viewBox="0 0 8 9" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <circle cx="4" cy="4.70703" r="4" fill="#34CD26" />
-                                    </svg>
-                                    Đã hoàn thành
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="area-pagination-page">
-                    <ul class="pagination-page">
-                        <li>
-                            <a href="#"><svg width="8" height="12" viewBox="0 0 8 12" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M7 1L1 6L7 11" fill="#A9A9B0" />
-                                    <path d="M7 1L1 6L7 11L7 1Z" stroke="#A9A9B0" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </a>
-                        </li>
-                        <li class="active-pagina-page"><a href="">1</a></li>
-                        <li><a href="">2</a></li>
-                        <li><a href="">3</a></li>
-                        <li><a href="">4</a></li>
-                        <li><a href="">5</a></li>
-                        <li><a href="">...</a></li>
-                        <li><a href="">10</a></li>
-                        <li>
-                            <a href="#"><svg width="8" height="12" viewBox="0 0 8 12" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1 11L7 6L1 1" fill="#7E7D88" />
-                                    <path d="M1 11L7 6L1 1L1 11Z" stroke="#7E7D88" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-
-                            </a>
-                        </li>
-                    </ul>
-
-                </div>
             </div>
+
+            <div class="table-info-service">
+                @if ($tickets->count() == 0)
+                <p>Không có kết quả nào được tìm thấy ! </p>
+                @else
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col" class="th-border-left border-info-service">Số thứ tự</th>
+                            <th scope="col" class="th-border-right">Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($tickets as $item)
+                        <tr>
+                            <td class="border-info-service">
+                                {{ $item->id }}
+                            </td>
+                            <td>
+                                @if($item -> status == 'pending')
+                                <svg width="8" height="9" viewBox="0 0 8 9" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="4" cy="4.5" r="4" fill="#4277FF" />
+                                </svg> Đang thực hiện
+                                @elseif ($item -> status == 'used')
+                                <svg width="8" height="9" viewBox="0 0 8 9" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="4" cy="4.70703" r="4" fill="#34CD26" />
+                                </svg>
+                                Đã hoàn thành
+                                @else
+                                <svg width="8" height="9" viewBox="0 0 8 9" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="4" cy="4.70703" r="4" fill="#6C7585" />
+                                </svg>
+                                Vắng
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                @endif
+            </div>
+
+
+            @if ($tickets->lastPage() > 1)
+            <div class="area-pagination-page-info-service">
+                <ul class="pagination-page">
+                    @if ($tickets->currentPage() > 1)
+                    <a
+                        href="{{ $tickets->previousPageUrl() }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                        <li>
+                            <svg width="8" height="12" viewBox="0 0 8 12" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 1L1 6L7 11" fill="#A9A9B0" />
+                                <path d="M7 1L1 6L7 11L7 1Z" stroke="#A9A9B0" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </li>
+                    </a>
+                    @endif
+
+                    @if ($tickets->lastPage() <= 6) @for ($i=1; $i <=$tickets->lastPage(); $i++)
+                        <a href="{{ $tickets->url($i) }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                            <li class="{{ ($tickets->currentPage() == $i) ? 'active-pagina-page' : '' }}">
+                                {{ $i }}
+                            </li>
+                        </a>
+                        @endfor
+                        @else
+                        <a href="{{ $tickets->url(1) }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                            <li class="{{ ($tickets->currentPage() == 1) ? 'active-pagina-page' : '' }}">
+                                1
+                            </li>
+                        </a>
+                        @if ($tickets->currentPage() > 3 && $tickets->lastPage() > 6)
+                        <li><span>...</span></li>
+                        @endif
+                        @for ($i = max(2, $tickets->currentPage() - 2); $i <= min($tickets->currentPage() + 2,
+                            $tickets->lastPage() - 1); $i++)
+                            <a
+                                href="{{ $tickets->url($i) }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                                <li class="{{ ($tickets->currentPage() == $i) ? 'active-pagina-page' : '' }}">
+                                    {{ $i }}
+                                </li>
+                            </a>
+                            @endfor
+                            @if ($tickets->currentPage() < $tickets->lastPage() - 2 && $tickets->lastPage() > 6)
+                                <li><span>...</span></li>
+                                @endif
+                                <a
+                                    href="{{ $tickets->url($tickets->lastPage()) }}&search_ticket={!!isset($searchTerm) ? $searchTerm : '' !!}">
+                                    <li
+                                        class="{{ ($tickets->currentPage() == $tickets->lastPage()) ? 'active-pagina-page' : '' }}">
+                                        {{ $tickets->lastPage() }}
+                                    </li>
+                                </a>
+                                @endif
+
+                                @if ($tickets->currentPage() < $tickets->lastPage())
+                                    <a
+                                        href="{{ $tickets->nextPageUrl() }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                                        <li>
+                                            <svg width="8" height="12" viewBox="0 0 8 12" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M1 11L7 6L1 1" fill="#7E7D88" />
+                                                <path d="M1 11L7 6L1 1L1 11Z" stroke="#7E7D88" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </li>
+                                    </a>
+                                    @endif
+                </ul>
+            </div>
+            @endif
+
+
         </div>
+    </div>
     </div>
 </main>
 @endsection

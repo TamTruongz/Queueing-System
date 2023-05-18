@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;
+$user = \Illuminate\Support\Facades\Auth::user();
 
 class Authenticate extends Middleware
 {

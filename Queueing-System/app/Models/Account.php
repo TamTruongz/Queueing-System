@@ -69,4 +69,10 @@ class Account extends Model implements Authenticatable, CanResetPasswordContract
     {
         return $this->belongsTo(Role::class, 'role', 'name');
     }
+    
+    public function hasPermission($permission)
+    {
+        return $this->role->hasPermission($permission);
+    }
+    
 }

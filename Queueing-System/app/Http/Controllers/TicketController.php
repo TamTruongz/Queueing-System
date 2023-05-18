@@ -88,6 +88,9 @@ class TicketController extends Controller
         $filter_status = $request->input('filter_status');
         $filter_source = $request->input('filter_source');
 
+        $dateStart = $request->input('dateStart');
+        $dateEnd = $request->input('dateEnd');
+
         $services = Service::all();
         $tickets = DB::table('tickets')
 
@@ -99,6 +102,9 @@ class TicketController extends Controller
         })
         ->when($filter_source, function ($query, $filter_source) {
             return $query->where('source', $filter_source);
+        })
+        ->when($dateStart && $dateEnd, function ($query) use ($dateStart, $dateEnd) {
+            return $query->whereBetween('created_at', [$dateStart, $dateEnd]);
         })
         ->paginate(9);
         return view('layout.ticket.manager', ['tickets' => $tickets, 'services' => $services]);

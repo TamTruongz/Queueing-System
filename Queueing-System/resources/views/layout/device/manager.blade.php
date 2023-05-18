@@ -149,34 +149,36 @@
                     @endif
 
                     @if ($devices->lastPage() <= 6) @for ($i=1; $i <=$devices->lastPage(); $i++)
-                        <li class="{{ ($devices->currentPage() == $i) ? 'active-pagina-page' : '' }}">
-                            <a
-                                href="{{ $devices->url($i) }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}">{{ $i }}</a>
-                        </li>
+                        <a href="{{ $devices->url($i) }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                            <li class="{{ ($devices->currentPage() == $i) ? 'active-pagina-page' : '' }}">{{ $i }}</li>
+                        </a>
                         @endfor
                         @else
-                        <li class="{{ ($devices->currentPage() == 1) ? 'active-pagina-page' : '' }}">
-                            <a
-                                href="{{ $devices->url(1) }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}">1</a>
-                        </li>
+                        <a href="{{ $devices->url(1) }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                            <li class="{{ ($devices->currentPage() == 1) ? 'active-pagina-page' : '' }}">1</li>
+                        </a>
                         @if ($devices->currentPage() > 3 && $devices->lastPage() > 6)
                         <li><span>...</span></li>
                         @endif
                         @for ($i = max(2, $devices->currentPage() - 2); $i <= min($devices->currentPage() + 2,
                             $devices->lastPage() - 1); $i++)
-                            <li class="{{ ($devices->currentPage() == $i) ? 'active-pagina-page' : '' }}">
-                                <a
-                                    href="{{ $devices->url($i) }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}">{{ $i }}</a>
-                            </li>
+                            <a
+                                href="{{ $devices->url($i) }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                                <li class="{{ ($devices->currentPage() == $i) ? 'active-pagina-page' : '' }}">
+                                    {{ $i }}
+                                </li>
+                            </a>
                             @endfor
                             @if ($devices->currentPage() < $devices->lastPage() - 2 && $devices->lastPage() > 6)
                                 <li><span>...</span></li>
                                 @endif
-                                <li
-                                    class="{{ ($devices->currentPage() == $devices->lastPage()) ? 'active-pagina-page' : '' }}">
-                                    <a
-                                        href="{{ $devices->url($devices->lastPage()) }}&search_device={!!isset($searchTerm) ? $searchTerm : '' !!}">{{ $devices->lastPage() }}</a>
-                                </li>
+                                <a
+                                    href="{{ $devices->url($devices->lastPage()) }}&search_device={!!isset($searchTerm) ? $searchTerm : '' !!}">
+                                    <li
+                                        class="{{ ($devices->currentPage() == $devices->lastPage()) ? 'active-pagina-page' : '' }}">
+                                        {{ $devices->lastPage() }}
+                                    </li>
+                                </a>
                                 @endif
 
                                 @if ($devices->currentPage() < $devices->lastPage())
