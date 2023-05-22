@@ -55,7 +55,7 @@
 
         <a href="{{ route('account.info') }}">
             <div class="navbar-user">
-                <img src="/images/avatar/{{ $userAvatar }}" alt="">
+                <img src="/storage/images/avatar/{{ $userAvatar }}" alt="">
                 <div class="text-user">
                     <p class="text-hello">Xin chào</p>
                     <p class="name-user">{{ $userName }}</p>

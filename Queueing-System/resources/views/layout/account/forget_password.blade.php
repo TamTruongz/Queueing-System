@@ -8,7 +8,7 @@
             </div>
 
             <div class="form-login">
-                <form action="{{ route('password.email') }}" method="post">
+                <form action="{{ route('password.email') }}" method="POST">
                     @csrf
                     <div class="text-forget">
                         <p class="heading-forget">Đặt lại mật khẩu</p>

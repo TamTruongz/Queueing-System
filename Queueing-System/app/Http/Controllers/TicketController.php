@@ -50,6 +50,7 @@ class TicketController extends Controller
         $this->middleware('log_account_actions');
         
         $ticket->save();
+       
         $service = Service::all();
         $latestTicket = Ticket::latest()->first();
         return response()->json([
@@ -107,7 +108,8 @@ class TicketController extends Controller
             return $query->whereBetween('created_at', [$dateStart, $dateEnd]);
         })
         ->paginate(9);
-        return view('layout.ticket.manager', ['tickets' => $tickets, 'services' => $services]);
+        return view('layout.ticket.manager', ['tickets' => $tickets, 'services' => $services], compact('filter_name', 'filter_status','filter_source','dateStart', 'dateEnd'));
 
     }
+    
 }

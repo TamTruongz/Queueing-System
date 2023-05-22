@@ -13,7 +13,6 @@
             <div class="area-filter">
                 <div class="dropdown status-device">
                     <p class="text-status-device">Trạng thái hoạt động</p>
-
                     <select class="btn-select-device" name="filter_status_service" id="filter_status_service">
                         <option value=" ">Tất cả</option>
                         <option {!! (request()->input('filter_status')) == 'active' ? 'selected' : '' !!}
@@ -21,6 +20,7 @@
                         <option {!! (request()->input('filter_status')) == 'inactive' ? 'selected' : '' !!}
                             value="inactive">Ngưng hoạt động</option>
                     </select>
+                    <span class="vector"><img src="/images/Vector.svg" alt=""></span>
                 </div>
 
                 <div class="area-date">
@@ -126,7 +126,7 @@
                 <ul class="pagination-page">
                     @if ($services->currentPage() > 1)
                     <a
-                        href="{{ $services->previousPageUrl() }}&search_service={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                        href="{{ $services->previousPageUrl() }}&search_service={!! isset($searchTerm) ? $searchTerm : '' !!}&filter_status={!! isset($filter_status) ? $filter_status : '' !!}&dateStart={!! isset($dateStart) ? $dateStart : '' !!}&dateEnd={!! isset($dateEnd) ? $dateEnd : '' !!}">
                         <li>
                             <svg width="8" height="12" viewBox="0 0 8 12" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -139,14 +139,16 @@
                     @endif
 
                     @if ($services->lastPage() <= 6) @for ($i=1; $i <=$services->lastPage(); $i++)
-                        <a href="{{ $services->url($i) }}&search_service={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                        <a
+                            href="{{ $services->url($i) }}&search_service={!! isset($searchTerm) ? $searchTerm : '' !!}&filter_status={!! isset($filter_status) ? $filter_status : '' !!}&dateStart={!! isset($dateStart) ? $dateStart : '' !!}&dateEnd={!! isset($dateEnd) ? $dateEnd : '' !!}">
                             <li class="{{ ($services->currentPage() == $i) ? 'active-pagina-page' : '' }}">
                                 {{ $i }}
                             </li>
                         </a>
                         @endfor
                         @else
-                        <a href="{{ $services->url(1) }}&search_service={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                        <a
+                            href="{{ $services->url(1) }}&search_service={!! isset($searchTerm) ? $searchTerm : '' !!}&filter_status={!! isset($filter_status) ? $filter_status : '' !!}&dateStart={!! isset($dateStart) ? $dateStart : '' !!}&dateEnd={!! isset($dateEnd) ? $dateEnd : '' !!}">
                             <li class="{{ ($services->currentPage() == 1) ? 'active-pagina-page' : '' }}">1</li>
                         </a>
 
@@ -156,7 +158,7 @@
                         @for ($i = max(2, $services->currentPage() - 2); $i <= min($services->currentPage() + 2,
                             $services->lastPage() - 1); $i++)
                             <a
-                                href="{{ $services->url($i) }}&search_service={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                                href="{{ $services->url($i) }}&search_service={!! isset($searchTerm) ? $searchTerm : '' !!}&filter_status={!! isset($filter_status) ? $filter_status : '' !!}&dateStart={!! isset($dateStart) ? $dateStart : '' !!}&dateEnd={!! isset($dateEnd) ? $dateEnd : '' !!}">
                                 <li class="{{ ($services->currentPage() == $i) ? 'active-pagina-page' : '' }}">
                                     {{ $i }}
                                 </li>
@@ -166,7 +168,7 @@
                                 <li><span>...</span></li>
                                 @endif
                                 <a
-                                    href="{{ $services->url($services->lastPage()) }}&search_service={!!isset($searchTerm) ? $searchTerm : '' !!}">
+                                    href="{{ $services->url($services->lastPage()) }}&search_service={!!isset($searchTerm) ? $searchTerm : '' !!}&filter_status={!! isset($filter_status) ? $filter_status : '' !!}&dateStart={!! isset($dateStart) ? $dateStart : '' !!}&dateEnd={!! isset($dateEnd) ? $dateEnd : '' !!}">
                                     <li
                                         class="{{ ($services->currentPage() == $services->lastPage()) ? 'active-pagina-page' : '' }}">
                                         {{ $services->lastPage() }}
@@ -176,7 +178,7 @@
 
                                 @if ($services->currentPage() < $services->lastPage())
                                     <a
-                                        href="{{ $services->nextPageUrl() }}&search_service={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                                        href="{{ $services->nextPageUrl() }}&search_service={!! isset($searchTerm) ? $searchTerm : '' !!}&filter_status={!! isset($filter_status) ? $filter_status : '' !!}&dateStart={!! isset($dateStart) ? $dateStart : '' !!}&dateEnd={!! isset($dateEnd) ? $dateEnd : '' !!}">
                                         <li>
                                             <svg width="8" height="12" viewBox="0 0 8 12" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">

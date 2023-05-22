@@ -73,6 +73,9 @@ class LogAccountActions
             elseif ($request->routeIs('account.update')) {
                 return 'Cập nhật thông tin tài khoản';
             } 
+            elseif ($request->routeIs('account.update_avatar')) {
+                return 'Cập nhật avatar tài khoản';
+            } 
             else {
                 return 'Cập nhật'; // Trường hợp mặc định
             }

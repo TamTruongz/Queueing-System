@@ -47,6 +47,22 @@
     margin-left: 23px;
 }
 
+.status-device, .status-connect {
+    position: relative;
+}
+
+.vector {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 35px 15px 0 0;
+    transition: 0.5s;
+}
+
+.select:focus .vector img {
+    transform: rotate(180deg);
+}
+
 .text-status-device {
     font-weight: 600;
     font-size: 16px;
@@ -69,6 +85,7 @@
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
+    outline: none;
 }
 
 .btn-select-device:hover {
@@ -419,4 +436,30 @@
     background: #FFFFFF;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
     overflow-y: auto;
+}
+
+/* ... */
+.truncate {
+    width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.content-none-device {
+    position: absolute;
+    width: 310px;
+    min-height: 50px;
+    background: #FFFFFF;
+    border: 1px solid #FFC89B;
+    border-radius: 8px;
+    margin-top: -45px;
+    padding: 4px 8px;
+    display: none;
+}
+
+/*  */
+.rotate {
+    transition: 0.5s;
+    transform: rotate(180deg);
 }

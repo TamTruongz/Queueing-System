@@ -17,6 +17,7 @@
                         <option {!! (request()->input('filter_status')) == 'inactive' ? 'selected' : '' !!}
                             value="inactive">Ngưng hoạt động</option>
                     </select>
+                    <span class="vector"><img src="/images/Vector.svg" alt=""></span>
                 </div>
 
                 <div class="status-connect">
@@ -28,6 +29,7 @@
                         <option {!! (request()->input('filter_connect')) == 'disconnected' ? 'selected' : '' !!}
                             value="disconnected">Ngưng kết nối</option>
                     </select>
+                    <span class="vector"><img src="/images/Vector.svg" alt=""></span>
                 </div>
             </div>
 
@@ -116,10 +118,12 @@
                             </svg> Mất kết nối' !!}
 
                         </td>
-                        <td class="border-table">
-
-                            <p>{{ $device->service_use }}</p><a href="">Xem thêm</a>
-
+                        <td class="border-table ">
+                            <p class="truncate">{{ $device->service_use }}</p>
+                            <a class="show-more" data-id="{{ $device->id }}" href="#">Xem thêm</a>
+                            <div class="content-none-device" id="content-{{ $device->id }}">
+                                <p>{{ $device->service_use }}</p>
+                            </div>
                         </td>
                         <td class="border-table"><a href="{{ route('device.info', ['id' => $device->id]) }}">Chi
                                 tiết</a></td>
@@ -136,7 +140,7 @@
                 <ul class="pagination-page">
                     @if ($devices->currentPage() > 1)
                     <a
-                        href="{{ $devices->previousPageUrl() }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                        href="{{ $devices->previousPageUrl() }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}&filter_status={!! isset($filter_status) ? $filter_status : '' !!}&active&filter_connect={!! isset($filter_connect) ? $filter_connect : '' !!}">
                         <li>
                             <svg width="8" height="12" viewBox="0 0 8 12" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -149,12 +153,14 @@
                     @endif
 
                     @if ($devices->lastPage() <= 6) @for ($i=1; $i <=$devices->lastPage(); $i++)
-                        <a href="{{ $devices->url($i) }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                        <a
+                            href="{{ $devices->url($i) }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}&filter_status={!! isset($filter_status) ? $filter_status : '' !!}&active&filter_connect={!! isset($filter_connect) ? $filter_connect : '' !!}">
                             <li class="{{ ($devices->currentPage() == $i) ? 'active-pagina-page' : '' }}">{{ $i }}</li>
                         </a>
                         @endfor
                         @else
-                        <a href="{{ $devices->url(1) }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                        <a
+                            href="{{ $devices->url(1) }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}&filter_status={!! isset($filter_status) ? $filter_status : '' !!}&active&filter_connect={!! isset($filter_connect) ? $filter_connect : '' !!}">
                             <li class="{{ ($devices->currentPage() == 1) ? 'active-pagina-page' : '' }}">1</li>
                         </a>
                         @if ($devices->currentPage() > 3 && $devices->lastPage() > 6)
@@ -163,7 +169,7 @@
                         @for ($i = max(2, $devices->currentPage() - 2); $i <= min($devices->currentPage() + 2,
                             $devices->lastPage() - 1); $i++)
                             <a
-                                href="{{ $devices->url($i) }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                                href="{{ $devices->url($i) }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}&filter_status={!! isset($filter_status) ? $filter_status : '' !!}&active&filter_connect={!! isset($filter_connect) ? $filter_connect : '' !!}">
                                 <li class="{{ ($devices->currentPage() == $i) ? 'active-pagina-page' : '' }}">
                                     {{ $i }}
                                 </li>
@@ -173,7 +179,7 @@
                                 <li><span>...</span></li>
                                 @endif
                                 <a
-                                    href="{{ $devices->url($devices->lastPage()) }}&search_device={!!isset($searchTerm) ? $searchTerm : '' !!}">
+                                    href="{{ $devices->url($devices->lastPage()) }}&search_device={!!isset($searchTerm) ? $searchTerm : '' !!}&filter_status={!! isset($filter_status) ? $filter_status : '' !!}&active&filter_connect={!! isset($filter_connect) ? $filter_connect : '' !!}">
                                     <li
                                         class="{{ ($devices->currentPage() == $devices->lastPage()) ? 'active-pagina-page' : '' }}">
                                         {{ $devices->lastPage() }}
@@ -183,7 +189,7 @@
 
                                 @if ($devices->currentPage() < $devices->lastPage())
                                     <a
-                                        href="{{ $devices->nextPageUrl() }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                                        href="{{ $devices->nextPageUrl() }}&search_device={!! isset($searchTerm) ? $searchTerm : '' !!}&filter_status={!! isset($filter_status) ? $filter_status : '' !!}&active&filter_connect={!! isset($filter_connect) ? $filter_connect : '' !!}">
                                         <li>
                                             <svg width="8" height="12" viewBox="0 0 8 12" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">

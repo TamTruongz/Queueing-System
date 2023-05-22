@@ -19,7 +19,7 @@
         </div>
         <div class="table-list-device">
             <!-- nút tải về-->
-            <a href="#">
+            <a href="">
                 <div class="button-add-device">
                     <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -232,7 +232,7 @@
             <div class="area-pagination-page">
                 <ul class="pagination-page">
                     @if ($tickets->currentPage() > 1)
-                    <a href="{{ $tickets->previousPageUrl() }}">
+                    <a href="{{ $tickets->previousPageUrl() }}&status={!! isset($selectedStatus) ? $selectedStatus : '' !!}&source={!! isset($selectedSource) ? $selectedSource : '' !!}">
                         <li>
                             <svg width="8" height="12" viewBox="0 0 8 12" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -245,14 +245,14 @@
                     @endif
 
                     @if ($tickets->lastPage() <= 6) @for ($i=1; $i <=$tickets->lastPage(); $i++)
-                        <a href="{{ $tickets->url($i) }}">
+                        <a href="{{ $tickets->url($i) }}&status={!! isset($selectedStatus) ? $selectedStatus : '' !!}&source={!! isset($selectedSource) ? $selectedSource : '' !!}">
                             <li class="{{ ($tickets->currentPage() == $i) ? 'active-pagina-page' : '' }}">
                                 {{ $i }}
                             </li>
                         </a>
                         @endfor
                         @else
-                        <a href="{{ $tickets->url(1) }}">
+                        <a href="{{ $tickets->url(1) }}&status={!! isset($selectedStatus) ? $selectedStatus : '' !!}&source={!! isset($selectedSource) ? $selectedSource : '' !!}">
                             <li class="{{ ($tickets->currentPage() == 1) ? 'active-pagina-page' : '' }}">
                                 1
                             </li>
@@ -262,7 +262,7 @@
                         @endif
                         @for ($i = max(2, $tickets->currentPage() - 2); $i <= min($tickets->currentPage() + 2,
                             $tickets->lastPage() - 1); $i++)
-                            <a href="{{ $tickets->url($i) }}">
+                            <a href="{{ $tickets->url($i) }}&status={!! isset($selectedStatus) ? $selectedStatus : '' !!}&source={!! isset($selectedSource) ? $selectedSource : '' !!}">
                                 <li class="{{ ($tickets->currentPage() == $i) ? 'active-pagina-page' : '' }}">
                                     {{ $i }}
                                 </li>
@@ -271,7 +271,7 @@
                             @if ($tickets->currentPage() < $tickets->lastPage() - 2 && $tickets->lastPage() > 6)
                                 <li><span>...</span></li>
                                 @endif
-                                <a href="{{ $tickets->url($tickets->lastPage()) }}">
+                                <a href="{{ $tickets->url($tickets->lastPage()) }}&status={!! isset($selectedStatus) ? $selectedStatus : '' !!}&source={!! isset($selectedSource) ? $selectedSource : '' !!}">
                                     <li
                                         class="{{ ($tickets->currentPage() == $tickets->lastPage()) ? 'active-pagina-page' : '' }}">
                                         {{ $tickets->lastPage() }}
@@ -281,7 +281,7 @@
 
 
                                 @if ($tickets->currentPage() < $tickets->lastPage())
-                                    <a href="{{ $tickets->nextPageUrl() }}">
+                                    <a href="{{ $tickets->nextPageUrl() }}&status={!! isset($selectedStatus) ? $selectedStatus : '' !!}&source={!! isset($selectedSource) ? $selectedSource : '' !!}">
                                         <li>
                                             <svg width="8" height="12" viewBox="0 0 8 12" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">

@@ -64,5 +64,5 @@ class ForgotPasswordController extends Controller
     $request->session()->forget('reset_email');
 
     return redirect('/login')->with('success', 'Mật khẩu của bạn đã được cập nhật thành công !');
-}
+    }
 }

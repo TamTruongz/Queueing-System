@@ -9,7 +9,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Notifications\Notifiable;
 
-class Account extends Model implements Authenticatable, CanResetPasswordContract{
+class Account extends Model implements Authenticatable, CanResetPasswordContract {
 
     use HasFactory;
     use CanResetPassword,Notifiable;
@@ -63,7 +63,7 @@ class Account extends Model implements Authenticatable, CanResetPasswordContract
 
     public function isActive()
     {
-        return $this->status == true;
+        return $this->status === 'active';
     }
     public function role()
     {

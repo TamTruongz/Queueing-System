@@ -204,7 +204,20 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0px 16px;
+    padding: 0px 12px;
+}
+.overview-rect .diagram-device, .diagram-service, .diagram-numberlevel  {
+    position: relative;
+}
+.percent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-weight: 700;
+    font-size: 12px;
+    color: #535261;
+    margin: 35px 0 0 28px;
+  
 }
 
 .overview-number {

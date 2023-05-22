@@ -8,6 +8,8 @@ use App\Models\Service;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
+use Maatwebsite\Excel\Facades\Excel;
+
 class ReportController extends Controller
 {
     public function report(Request $request)
@@ -60,13 +62,7 @@ class ReportController extends Controller
             })
             ->paginate(10);
         
-        
-        if ($tickets->total() > $tickets->perPage()) {
-            return view('layout.report.manager', ['tickets' => $tickets, 'filter_ticket' => $filter_ticket, 'filter_service' => $filter_service ]);
-        } else {
-            return view('layout.report.manager', ['tickets' => $tickets, 'filter_ticket' => $filter_ticket, 'filter_service' => $filter_service, 'hidePagination' => true]);
-        }  
+            return view('layout.report.manager', ['tickets' => $tickets, 'filter_ticket' => $filter_ticket, 'filter_service' => $filter_service ], compact('selectedStatus', 'selectedSource')); 
     }
 
-    
 }

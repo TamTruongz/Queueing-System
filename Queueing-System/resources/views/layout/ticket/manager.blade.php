@@ -19,6 +19,7 @@
                             value="{{ $services->service_name }}">{{ $services->service_name }}</option>
                         @endforeach
                     </select>
+                    <span class="vector"><img src="/images/Vector.svg" alt=""></span>
                 </div>
 
                 <div class="dropdown status-device">
@@ -32,6 +33,7 @@
                         <option {!! (request()->input('filter_status')) == 'skipped' ? 'selected' : '' !!}
                             value="skipped">Bỏ qua</option>
                     </select>
+                    <span class="vector"><img src="/images/Vector.svg" alt=""></span>
                 </div>
 
                 <div class="dropdown status-device">
@@ -44,6 +46,7 @@
                         <option {!! (request()->input('filter_source')) == 'system' ? 'selected' : '' !!}
                             value="system">Hệ thống</option>
                     </select>
+                    <span class="vector"><img src="/images/Vector.svg" alt=""></span>
                 </div>
 
                 <div class="area-date">
@@ -162,7 +165,7 @@
                 <ul class="pagination-page">
                     @if ($tickets->currentPage() > 1)
                     <a
-                        href="{{ $tickets->previousPageUrl() }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                        href="{{ $tickets->previousPageUrl() }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}&filter_name={!! isset($filter_name) ? $filter_name : '' !!}&filter_status={!! isset($filter_status) ? $filter_status : '' !!}&filter_source={!! isset($filter_source) ? $filter_source : '' !!}&dateStart={!! isset($dateStart) ? $dateStart : '' !!}&dateEnd={!! isset($dateEnd) ? $dateEnd : '' !!}">
                         <li>
                             <svg width="8" height="12" viewBox="0 0 8 12" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -175,14 +178,14 @@
                     @endif
 
                     @if ($tickets->lastPage() <= 6) @for ($i=1; $i <=$tickets->lastPage(); $i++)
-                        <a href="{{ $tickets->url($i) }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                        <a href="{{ $tickets->url($i) }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}&filter_name={!! isset($filter_name) ? $filter_name : '' !!}&filter_status={!! isset($filter_status) ? $filter_status : '' !!}&filter_source={!! isset($filter_source) ? $filter_source : '' !!}&dateStart={!! isset($dateStart) ? $dateStart : '' !!}&dateEnd={!! isset($dateEnd) ? $dateEnd : '' !!}">
                             <li class="{{ ($tickets->currentPage() == $i) ? 'active-pagina-page' : '' }}">
                                 {{ $i }}
                             </li>
                         </a>
                         @endfor
                         @else
-                        <a href="{{ $tickets->url(1) }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                        <a href="{{ $tickets->url(1) }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}&filter_name={!! isset($filter_name) ? $filter_name : '' !!}&filter_status={!! isset($filter_status) ? $filter_status : '' !!}&filter_source={!! isset($filter_source) ? $filter_source : '' !!}&dateStart={!! isset($dateStart) ? $dateStart : '' !!}&dateEnd={!! isset($dateEnd) ? $dateEnd : '' !!}">
                             <li class="{{ ($tickets->currentPage() == 1) ? 'active-pagina-page' : '' }}">
                                 1
                             </li>
@@ -193,7 +196,7 @@
                         @for ($i = max(2, $tickets->currentPage() - 2); $i <= min($tickets->currentPage() + 2,
                             $tickets->lastPage() - 1); $i++)
                             <a
-                                href="{{ $tickets->url($i) }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                                href="{{ $tickets->url($i) }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}&filter_name={!! isset($filter_name) ? $filter_name : '' !!}&filter_status={!! isset($filter_status) ? $filter_status : '' !!}&filter_source={!! isset($filter_source) ? $filter_source : '' !!}&dateStart={!! isset($dateStart) ? $dateStart : '' !!}&dateEnd={!! isset($dateEnd) ? $dateEnd : '' !!}">
                                 <li class="{{ ($tickets->currentPage() == $i) ? 'active-pagina-page' : '' }}">
                                     {{ $i }}
                                 </li>
@@ -203,7 +206,7 @@
                                 <li><span>...</span></li>
                                 @endif
                                 <a
-                                    href="{{ $tickets->url($tickets->lastPage()) }}&search_ticket={!!isset($searchTerm) ? $searchTerm : '' !!}">
+                                    href="{{ $tickets->url($tickets->lastPage()) }}&search_ticket={!!isset($searchTerm) ? $searchTerm : '' !!}&filter_name={!! isset($filter_name) ? $filter_name : '' !!}&filter_status={!! isset($filter_status) ? $filter_status : '' !!}&filter_source={!! isset($filter_source) ? $filter_source : '' !!}&dateStart={!! isset($dateStart) ? $dateStart : '' !!}&dateEnd={!! isset($dateEnd) ? $dateEnd : '' !!}">
                                     <li
                                         class="{{ ($tickets->currentPage() == $tickets->lastPage()) ? 'active-pagina-page' : '' }}">
                                         {{ $tickets->lastPage() }}
@@ -213,7 +216,7 @@
 
                                 @if ($tickets->currentPage() < $tickets->lastPage())
                                     <a
-                                        href="{{ $tickets->nextPageUrl() }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}">
+                                        href="{{ $tickets->nextPageUrl() }}&search_ticket={!! isset($searchTerm) ? $searchTerm : '' !!}&filter_name={!! isset($filter_name) ? $filter_name : '' !!}&filter_status={!! isset($filter_status) ? $filter_status : '' !!}&filter_source={!! isset($filter_source) ? $filter_source : '' !!}&dateStart={!! isset($dateStart) ? $dateStart : '' !!}&dateEnd={!! isset($dateEnd) ? $dateEnd : '' !!}">
                                         <li>
                                             <svg width="8" height="12" viewBox="0 0 8 12" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">

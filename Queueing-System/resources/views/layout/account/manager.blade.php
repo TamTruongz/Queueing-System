@@ -18,6 +18,7 @@
                         <option {!! (request()->input('filter_status')) == 'inactive' ? 'selected' : '' !!}
                             value="inactive">Ngưng hoạt động</option>
                     </select>
+                    <span class="vector"><img src="/images/Vector.svg" alt=""></span>
                 </div>
             </div>
 

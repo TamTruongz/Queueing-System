@@ -172,7 +172,7 @@ class DeviceController extends Controller
             return $query->where('connect_status', $filter_connect);
         })
         ->paginate(9);
-        return view('layout.device.manager', ['devices' => $devices]);
+        return view('layout.device.manager', ['devices' => $devices], compact('filter_status','filter_connect'));
 
     }
 }

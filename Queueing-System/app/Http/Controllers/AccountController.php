@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -110,6 +111,11 @@ class AccountController extends Controller
 
             if (Auth::attempt($data)) {
                 // chứa thông tin đăng nhập
+                $user = Auth::user();
+                if (!$user->isActive()) {
+                    Auth::logout();
+                    return back()->withErrors(['login' => 'Tài khoản của bạn đã bị ngừng hoạt động !']);
+                }
                 $request->session()->regenerate();
                 return redirect()->route('dashboard')->with('success', 'Đăng nhập thành công!');
             }
@@ -181,60 +187,91 @@ class AccountController extends Controller
     public function update(Request $request, $id)
     {
     
+        $request->validate([
+            'name' => 'required|string|max:255|min:3',
+            'username' => 'required|string|max:255|min:3',
+            'phone' => 'required|max:255|min:3',
+            'password' => 'nullable|string|min:6|confirmed',
+            'email' => 'required|string|email',
+            'role' => 'required',
+            'status' => 'nullable'
+        ], 
+        [
+            'name.required' => 'Vui lòng nhập họ và tên !',
+            'username.required' => 'Vui lòng nhập tên đăng nhập !',
+            'phone.required' => 'Vui lòng nhập số điện thoại !',
+            'email.required' => 'Vui lòng nhập email !',
 
-    $request->validate([
-        'name' => 'required|string|max:255|min:3',
-        'username' => 'required|string|max:255|min:3',
-        'phone' => 'required|max:255|min:3',
-        'password' => 'nullable|string|min:6|confirmed',
-        'email' => 'required|string|email',
-        'role' => 'required',
-        'status' => 'nullable'
-    ], 
-    [
-        'name.required' => 'Vui lòng nhập họ và tên !',
-        'username.required' => 'Vui lòng nhập tên đăng nhập !',
-        'phone.required' => 'Vui lòng nhập số điện thoại !',
-        'email.required' => 'Vui lòng nhập email !',
+            'name.max:255' => 'Họ và tên quá dài !',
+            'name.min:3' => 'Họ và tên quá ngắn !',
+            'username.max:255' => 'Tên đăng nhập quá dài !',
+            'username.min:3' => 'Tên đăng nhập quá ngắn !',
+            'email.email' => 'Email sai !',
+        ]);
+        $account = Account::findOrFail($id);
+        $oldRole = $account->role;
+        $newRole = $request->get('role');
 
-        'name.max:255' => 'Họ và tên quá dài !',
-        'name.min:3' => 'Họ và tên quá ngắn !',
-        'username.max:255' => 'Tên đăng nhập quá dài !',
-        'username.min:3' => 'Tên đăng nhập quá ngắn !',
-        'email.email' => 'Email sai !',
-    ]);
-    $account = Account::findOrFail($id);
-    $oldRole = $account->role;
-    $newRole = $request->get('role');
+        if ($oldRole != $newRole) {
+            $oldRoleObj = Role::where('name', $oldRole)->first();
+            $oldRoleObj->count -= 1;
+            $oldRoleObj->save();
 
-    if ($oldRole != $newRole) {
-        $oldRoleObj = Role::where('name', $oldRole)->first();
-        $oldRoleObj->count -= 1;
-        $oldRoleObj->save();
+            $newRoleObj = Role::where('name', $newRole)->first();
+            $newRoleObj->count += 1;
+            $newRoleObj->save();
+        }
 
-        $newRoleObj = Role::where('name', $newRole)->first();
-        $newRoleObj->count += 1;
-        $newRoleObj->save();
+        $account->name = $request->get('name');
+        $account->username = $request->get('username');
+        $account->phone = $request->get('phone');
+        if ($request->filled('password')) {
+            $account->password = $request->input('password');
+        }
+        $account->email = $request->get('email');
+        $account->role = $request->get('role');
+        $account->status = $request->get('status');
+
+        try {
+            $this->middleware('log_account_actions');
+            $account->save();
+            return redirect('/account')->with('success', 'Cập nhật tài khoản thành công!');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Cập nhật tài khoản thất bại!']);
+        }
     }
+    public function updateAvatar(Request $request) {
+        $request->validate([
+            'avatar' => 'required|image|max:2048', // kiểm tra ảnh có hợp lệ và kích thước tối đa là 2MB
+        ]);
 
-    $account->name = $request->get('name');
-    $account->username = $request->get('username');
-    $account->phone = $request->get('phone');
-    if ($request->filled('password')) {
-        $account->password = $request->input('password');
-    }
-    $account->email = $request->get('email');
-    $account->role = $request->get('role');
-    $account->status = $request->get('status');
+        // Xóa ảnh cũ nếu có
+        
+        if (auth()->user()->avatar && (auth()->user()->avatar) != 'user.png') {
+            Storage::delete('public/images/avatar/' . auth()->user()->avatar);
+        }
 
-    try {
-        $this->middleware('log_account_actions');
-        $account->save();
-        return redirect('/account')->with('success', 'Cập nhật tài khoản thành công!');
-    } catch (\Exception $e) {
-        return redirect()->back()->withErrors(['error' => 'Cập nhật tài khoản thất bại!']);
+        // Lưu ảnh vào thư mục public/images/avatar
+        $path = $request->file('avatar')->storeAs('public/images/avatar/', uniqid() . '.' . $request->file('avatar')->getClientOriginalExtension());
+
+        // Lấy tên file ảnh từ đường dẫn
+        $fileName = basename($path);
+
+        // Lưu tên file ảnh mới vào cơ sở dữ liệu cho user hiện tại
+        auth()->user()->update([
+            'avatar' => $fileName,
+        ]);
+
+        try {
+            $this->middleware('log_account_actions');
+            $account->save();
+            return redirect()->back()->with('success', 'Cập nhật avatar thành công !');
+        } 
+        catch (\Exception $e) {
+            return redirect()->back()->withErrors(['success' => 'Cập nhật avatar thất bại !']);
+        }
+
     }
-}
 
     public function search(Request $request)
     {

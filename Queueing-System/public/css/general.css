@@ -252,6 +252,41 @@ table tbody tr:nth-of-type(even) {
     }
 }
 
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    border: 2px solid #4277FF;
+    background-color: white;
+    background-image: none;
+    outline: none;
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+    background-image: url('../images/Checked.png');
+    background-position: center;
+}
+
+/*  */
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-position: right 10px center;
+    padding-right: 25px;
+}
+
+select:focus {
+    outline: none;
+}
+
+select:focus::-ms-value {
+    background-color: transparent;
+}
+
 /* Reponsive */
 @media (max-width: 768px) {
     .area-message {

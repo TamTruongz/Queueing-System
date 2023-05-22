@@ -9,7 +9,7 @@
         <div class="area-form-add-device mt-4">
 
             <!-- nút cập nhật cấp số -->
-            <a href="/codes">
+            <a href="{{ route('ticket') }}">
                 <div class="button-update-device">
                     <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path

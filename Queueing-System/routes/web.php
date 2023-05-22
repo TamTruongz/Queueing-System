@@ -89,7 +89,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/report', [ReportController::class, 'report'])->name('report');
     Route::get('/report/filter', [ReportController::class, 'filter'])->name('report.filter'); // == lọc
 
-
     // ==== Vai trò Router ====
     Route::get('/role', [RolesController::class, 'role'])->name('role');
 
@@ -100,6 +99,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/role/update/{id}', [RolesController::class, 'update'])->name('role.update');
     
     Route::get('/role/search', [RolesController::class, 'search'])->name('role.search'); // == Tìm kiếm
+
     // ==== Tài khoản Router ====
     Route::get('/account', [AccountController::class, 'account'])->name('account');
     
@@ -114,6 +114,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/account/search', [AccountController::class, 'search'])->name('account.search'); // == Tìm kiếm
 
     Route::get('/account/filter', [AccountController::class, 'filter'])->name('account.filter'); // == lọc
+    Route::put('/account/info', [AccountController::class, 'updateAvatar'])->name('account.update_avatar'); // == lọc
 
     // ==== Nhật ký tài khoản Router ====
     Route::get('/logs_account', [LogAccountController::class, 'index'])->name('logs');

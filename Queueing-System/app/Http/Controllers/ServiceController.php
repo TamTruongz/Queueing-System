@@ -188,7 +188,7 @@ class ServiceController extends Controller
             return $query->whereBetween('created_at', [$dateStart, $dateEnd]);
         })
         ->paginate(9);
-        return view('layout.service.manager', ['services' => $services]);
+        return view('layout.service.manager', ['services' => $services], compact('filter_status', 'dateStart', 'dateEnd'));
 
     }
 }
