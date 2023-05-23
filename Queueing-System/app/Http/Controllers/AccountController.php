@@ -11,18 +11,13 @@ use App\Models\Account;
 use App\Models\Role;
 use Illuminate\Support\Facades\DB;
 
+
 class AccountController extends Controller
 {
     public function __construct(public Account $account)
     {
         $this->middleware('log_account_actions')->only(['store', 'update']);
     }
-    // ===== REGISTER =================================================
-    // public function register()
-    // {
-    //     $roles = Role::all();
-    //     return view('layout.register',['roles' => $roles]);
-    // }
 
     public function create()
     {
@@ -40,10 +35,10 @@ class AccountController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:100|min:3',
-            'username' => 'required|string|max:100|min:3|unique:accounts',
+            'name' => 'required|max:100|min:3',
+            'username' => 'required|string|max:255|min:3|unique:accounts',
             'phone' => 'required|max:20|min:3',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|min:6|confirmed',
             'email' => 'required|string|email|unique:accounts',
             'role' => 'required',
             'status' => 'nullable'
@@ -56,19 +51,19 @@ class AccountController extends Controller
             'password.required' => 'Vui lòng nhập mật khẩu !',
             'email.required' => 'Vui lòng nhập email !',
 
-            'name.max:100' => 'Họ và tên quá dài !',
-            'name.min:3' => 'Họ và tên quá ngắn !',
-            'username.max:20' => 'Tên đăng nhập quá dài !',
-            'username.min:3' => 'Tên đăng nhập quá ngắn !',
+            'name.max' => 'Họ và tên quá dài !',
+            'name.min' => 'Họ và tên quá ngắn !',
+            'username.max' => 'Tên đăng nhập quá dài !',
+            'username.min' => 'Tên đăng nhập quá ngắn !',
 
-            'password.min:6' => 'Mật khẩu quá ngắn !',
+            'password.min' => 'Mật khẩu quá ngắn !',
             'password.confirmed' => 'Nhập lại mật khẩu không khớp !',
 
             'email.email' => 'Email sai !',
             'email.unique' => 'Email tồn tại !',
 
         ]);
-
+        
         $account = new Account([
             'name' => $request->name,
             'username' => $request->username,
@@ -79,7 +74,7 @@ class AccountController extends Controller
             'avatar' => 'user.png',
             'status' => $request->status ?? true
         ]);
-
+        
         $role = Role::where('name', $request->input('role'))->first();
         $role->count += 1;
         $role->save();

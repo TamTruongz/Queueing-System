@@ -32,8 +32,9 @@ Route::post('/login', [AccountController::class, 'login']);
 // ==== Forget - Reset ====
 Route::get('/forget_password', [ForgotPasswordController::class, 'ForgetPassword'])->name('password.forget');
 Route::post('/forget_password', [ForgotPasswordController::class, 'VerifyEmail'])->name('password.email');
-Route::get('/reset_password', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
-Route::put('/reset_password', [ForgotPasswordController::class, 'UpdatePassword'])->name('password.update');
+
+Route::get('/reset_password/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::put('/reset_password', [ForgotPasswordController::class, 'resetPassword'])->name('password.update');
 
 Route::post('/logout', [AccountController::class, 'logout'])->name('logout');
 

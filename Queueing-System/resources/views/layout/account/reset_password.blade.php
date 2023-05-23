@@ -11,6 +11,7 @@
                 <form action="{{ route('password.update') }}" method="post">
                     @csrf
                     @method('PUT')
+                    <input type="hidden" name="token" value="{{ $token }}">
                     <div class="text-forget">
                         <p class="heading-forget">Đặt lại mật khẩu mới</p>
                     </div>

@@ -15,7 +15,7 @@
                 method="POST">
                 @csrf
 
-                @if(isset($account))
+                @if(isset($account->id))
                 @method('PUT')
                 
                 @endif
@@ -104,8 +104,8 @@
                         <div class="alert-danger">{{ $errors->first('password') }}</div>
                         @endif
                     </label>
-                    <input name="password" type="password" placeholder="Nhập lại mật khẩu xác nhận"
-                        value="" class="form-control @error('password') is-invalid @enderror">
+                    <input name="password_confirmation" type="password" placeholder="Nhập lại mật khẩu xác nhận"
+                        value="" class="form-control @error('password_confirmation') is-invalid @enderror">
                 </div>
 
                 <div class="item-form-add-device">
